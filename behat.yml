@@ -1,0 +1,11 @@
+default:
+  formatters:
+    pretty: true
+  autoload:
+    '': '%paths.base%/feature/bootstrap'
+  suites:
+    default:
+      paths:
+      - '%paths.base%/feature'
+      contexts:
+      - FeatureContext
