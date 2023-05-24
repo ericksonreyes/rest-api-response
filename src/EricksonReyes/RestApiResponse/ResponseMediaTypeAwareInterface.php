@@ -2,7 +2,6 @@
 
 namespace EricksonReyes\RestApiResponse;
 
-
 /**
  * Interface ResponseMediaTypeAwareInterface
  * @package EricksonReyes\RestApiResponse

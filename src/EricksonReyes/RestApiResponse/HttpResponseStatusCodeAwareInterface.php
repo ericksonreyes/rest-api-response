@@ -2,7 +2,6 @@
 
 namespace EricksonReyes\RestApiResponse;
 
-
 /**
  * Interface HttpResponseStatusCodeAwareInterface
  * @package EricksonReyes\RestApiResponse

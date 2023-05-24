@@ -3,6 +3,7 @@ Feature: Generating a JSON API collection
   I want a REST API response generator library
 
 
+  @test
   Scenario: Generating a JSON API collection.
     Given there is the following articles:
       | id | title                       | body                                     | author_id | created                      | updated                  |
@@ -12,7 +13,7 @@ Feature: Generating a JSON API collection
       | id | first_name | last_name | age | gender |
       | 8  | Seiji      | Reyes     | 10  | male   |
       | 9  | Summer     | Reyes     | 13  | female |
-    When the response is asked to be generated
+    When a JSON API response is asked to be generated
     Then the library will return:
       """
       {
@@ -84,6 +85,7 @@ Feature: Generating a JSON API collection
       }
       """
     And the http response status code should be 200
+    And the media type should be "application/vnd.api+json"
 
 
   Scenario: Generating a JSON API collection with pagination.
@@ -100,7 +102,9 @@ Feature: Generating a JSON API collection
     And the maximum records per page is 2
     And the base url is "http://example.com/"
     And the http response status code is 200
-    When the response is asked to be generated
+    And the media type should be "application/vnd.api+json"
+
+    When a JSON API response is asked to be generated
     Then the library will return:
       """
       {
@@ -187,6 +191,7 @@ Feature: Generating a JSON API collection
       }
       """
     And the http response status code should be 200
+    And the media type should be "application/vnd.api+json"
 
 
   Scenario: Generating a JSON API error response.
@@ -194,7 +199,7 @@ Feature: Generating a JSON API collection
       | http_status_code | source             | title                        | detail                    |
       | 422              | File.php, Line 100 | MissingCustomerNameException | Customer name is missing. |
     And the http response status code is 422
-    When the response is asked to be generated
+    When a JSON API response is asked to be generated
     Then the library will return:
       """
       {
@@ -216,6 +221,7 @@ Feature: Generating a JSON API collection
       }
       """
     And the http response status code should be 422
+    And the media type should be "application/vnd.api+json"
 
 
   Scenario: Generating a JSON API multiple error response.
@@ -225,7 +231,7 @@ Feature: Generating a JSON API collection
       | 422              | /data/attributes/volume       |                                     | Volume does not, in fact, go to 11.                     |
       | 500              | /data/attributes/reputation   | The backend responded with an error | Reputation service not responding after three requests. |
     And the http response status code is 400
-    When the response is asked to be generated
+    When a JSON API response is asked to be generated
     Then the library will return:
       """
         {
@@ -255,6 +261,7 @@ Feature: Generating a JSON API collection
         }
       """
     And the http response status code should be 400
+    And the media type should be "application/vnd.api+json"
 
 
   Scenario: Generating a JSON API multiple error response with error codes.
@@ -264,7 +271,7 @@ Feature: Generating a JSON API collection
       | 422              | 225        | /data/attributes/password  | Passwords must contain a letter, number, and punctuation character. | The password provided is missing a punctuation character. |
       | 422              | 226        | /data/attributes/password  | Password and password confirmation do not match.                    |                                                           |
     And the http response status code is 422
-    When the response is asked to be generated
+    When a JSON API response is asked to be generated
     Then the library will return:
       """
         {
@@ -293,6 +300,7 @@ Feature: Generating a JSON API collection
         ]
       """
     And the http response status code should be 422
+    And the media type should be "application/vnd.api+json"
 
 
   Scenario: Generating a JSON API collection with meta information.
@@ -313,7 +321,7 @@ Feature: Generating a JSON API collection
       | Steve Klabnik |
       | Dan Gebhardt  |
       | Tyler Kellen  |
-    When the response is asked to be generated
+    When a JSON API response is asked to be generated
     Then the library will return:
       """
       {
@@ -394,6 +402,7 @@ Feature: Generating a JSON API collection
       }
       """
     And the http response status code should be 200
+    And the media type should be "application/vnd.api+json"
 
 
   Scenario: Generating a JSON API collection with link objects.
@@ -406,11 +415,11 @@ Feature: Generating a JSON API collection
       | 8  | Seiji      | Reyes     | 10  | male   |
       | 9  | Summer     | Reyes     | 13  | female |
     And there is the following links:
-      | title   | description    |
+      | name    | url            |
       | self    | /articles      |
       | related | /articles/tags |
     And the base url is "http://example.com/"
-    When the response is asked to be generated
+    When a JSON API response is asked to be generated
     Then the library will return:
       """
       {
@@ -488,12 +497,14 @@ Feature: Generating a JSON API collection
       }
       """
     And the http response status code should be 200
+    And the media type should be "application/vnd.api+json"
 
 
   Scenario: Generating a JSON API empty collection.
     Given there is the following articles:
+      | id | title | body | author_id | created | updated |
     And the base url is "http://example.com/"
-    When the response is asked to be generated
+    When a JSON API response is asked to be generated
     Then the library will return:
       """
       {
@@ -509,3 +520,4 @@ Feature: Generating a JSON API collection
       }
       """
     And the http response status code should be 200
+    And the media type should be "application/vnd.api+json"

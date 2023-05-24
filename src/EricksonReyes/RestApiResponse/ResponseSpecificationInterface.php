@@ -2,7 +2,6 @@
 
 namespace EricksonReyes\RestApiResponse;
 
-
 /**
  * Interface ResponseSpecificationInterface
  * @package EricksonReyes\RestApiResponse

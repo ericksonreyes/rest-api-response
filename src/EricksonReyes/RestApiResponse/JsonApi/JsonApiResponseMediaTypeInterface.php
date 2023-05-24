@@ -2,7 +2,6 @@
 
 namespace EricksonReyes\RestApiResponse\JsonApi;
 
-
 use EricksonReyes\RestApiResponse\ResponseMediaTypeAwareInterface;
 
 /**

@@ -2,7 +2,6 @@
 
 namespace EricksonReyes\RestApiResponse;
 
-
 /**
  * Interface ResponseStatusAwareInterface
  * @package EricksonReyes\RestApiResponse
@@ -13,10 +12,10 @@ interface ResponseStatusAwareInterface
     /**
      * @return string
      */
-    public function responseCode(): string;
+    public function httpStatusCode(): string;
 
     /**
      * @return string
      */
-    public function responseDescription(): string;
+    public function httpResponseDescription(): string;
 }
