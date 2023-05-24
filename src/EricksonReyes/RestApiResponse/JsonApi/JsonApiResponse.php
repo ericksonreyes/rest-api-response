@@ -14,11 +14,6 @@ class JsonApiResponse implements JsonApiResponseInterface
     public const API_VERSION = '1.1';
 
     /**
-     * @var \EricksonReyes\RestApiResponse\LinkInterface[]
-     */
-    private array $links = [];
-
-    /**
      * @var int
      */
     private int $httpStatusCode = 200;
@@ -108,13 +103,14 @@ class JsonApiResponse implements JsonApiResponseInterface
         $response = [
             'jsonapi' => [
                 'version' => '1.1'
-            ],
-            'data' => []
+            ]
         ];
 
+        $response = $this->addPaginationMetaData($response);
         $response = $this->addResources($response);
         $response = $this->addIncludedResources($response);
-        return $this->addLinks($response);
+        $response = $this->addLinks($response);
+        return $this->addPaginationLinks($response);
     }
 
     /**
@@ -139,6 +135,7 @@ class JsonApiResponse implements JsonApiResponseInterface
      */
     private function addResources(array $response): array
     {
+        $response['data'] = [];
         $resourceCount = count($this->resources);
         foreach ($this->resources as $index => $resource) {
             if ($resourceCount === 1) {
@@ -229,11 +226,91 @@ class JsonApiResponse implements JsonApiResponseInterface
      */
     private function addLinks(array $response): array
     {
-        if (empty($this->links) === false) {
-            foreach ($this->links as $link) {
-                $response['links'][$link->name()] = $link->url();
+        if ($this->resources instanceof JsonApiResourcesInterface) {
+            if (empty($this->resources->baseUrl()) === false) {
+                $response['links']['self'] = $this->resources->baseUrl();
+            }
+
+            if (empty($this->resources->links()) === false) {
+                foreach ($this->resources->links() as $link) {
+                    $response['links'][$link->name()] = $link->url();
+                }
             }
         }
         return $response;
+    }
+
+    /**
+     * @param array $response
+     * @return array
+     */
+    private function addPaginationMetaData(array $response): array
+    {
+        if ($this->resources instanceof JsonApiResourcesInterface && $this->resources->numberOfPages() > 0) {
+            $response['meta']['total'] = (string)$this->resources->numberOfRecords();
+
+            if ($this->resources->recordsPerPage() > 0) {
+                $response['meta']['page']['size'] = (string)$this->resources->recordsPerPage();
+            }
+            if ($this->resources->numberOfPages() > 0) {
+                $response['meta']['page']['total'] = (string)$this->resources->numberOfPages();
+            }
+            if ($this->resources->firstPage() > 0) {
+                $response['meta']['page']['first'] = (string)$this->resources->firstPage();
+            }
+            if ($this->resources->previousPage() > 0) {
+                $response['meta']['page']['previous'] = (string)$this->resources->previousPage();
+            }
+            if ($this->resources->currentPageNumber() > 0) {
+                $response['meta']['page']['current'] = (string)$this->resources->currentPageNumber();
+            }
+            if ($this->resources->nextPage() > 0) {
+                $response['meta']['page']['next'] = (string)$this->resources->nextPage();
+            }
+            if ($this->resources->lastPage() > 0) {
+                $response['meta']['page']['last'] = (string)$this->resources->lastPage();
+            }
+        }
+        return $response;
+    }
+
+    /**
+     * @param array $response
+     * @return array
+     */
+    private function addPaginationLinks(array $response): array
+    {
+        if ($this->resources instanceof JsonApiResourcesInterface && $this->resources->numberOfPages() > 0) {
+            if ($this->resources->firstPage() > 0) {
+                $response['links']['first'] = $this->formatPaginationUrl($this->resources->firstPage());
+            }
+            if ($this->resources->previousPage() > 0) {
+                $response['links']['previous'] = $this->formatPaginationUrl($this->resources->previousPage());
+            }
+            if ($this->resources->nextPage() > 0) {
+                $response['links']['next'] = $this->formatPaginationUrl($this->resources->nextPage());
+            }
+            if ($this->resources->lastPage() > 0) {
+                $response['links']['last'] = $this->formatPaginationUrl($this->resources->lastPage());
+            }
+        }
+        return $response;
+    }
+
+    /**
+     * @param int $pageNumber
+     * @return string
+     */
+    private function formatPaginationUrl(int $pageNumber): string
+    {
+        $url = $this->resources->baseUrl();
+
+        $recordsPerPage = $this->resources->recordsPerPage();
+
+        $pattern = '/page\[number\]=\d+/';
+        $url = preg_replace($pattern, 'page[number]=' . $pageNumber, $url);
+
+        $pattern = '/page\[size\]=\d+/';
+        return preg_replace($pattern, 'page[size]=' . $recordsPerPage, $url);
     }
 }

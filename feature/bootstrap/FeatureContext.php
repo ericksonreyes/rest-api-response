@@ -1,7 +1,6 @@
 <?php
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use EricksonReyes\RestApiResponse\JsonApi\JsonApiRelationship;
@@ -18,20 +17,21 @@ use EricksonReyes\RestApiResponse\Resource;
  */
 class FeatureContext implements Context
 {
+
     /**
-     * @var \EricksonReyes\RestApiResponse\ResourceInterface[]
+     * @var array
      */
     private array $articles = [];
 
     /**
-     * @var \EricksonReyes\RestApiResponse\ResourceInterface[]
+     * @var array
      */
     private array $authors = [];
 
     /**
      * @var array
      */
-    private array $relationships = [];
+    private array $pagination = [];
 
     /**
      * @var string
@@ -42,6 +42,31 @@ class FeatureContext implements Context
      * @var array
      */
     private array $links = [];
+
+    /**
+     * @var array
+     */
+    private array $exceptions = [];
+
+    /**
+     * @var array
+     */
+    private array $meta = [];
+
+    /**
+     * @var array
+     */
+    private array $metaCollection = [];
+
+    /**
+     * @var int
+     */
+    private int $httpResponseStatusCode = 0;
+
+    /**
+     * @var string
+     */
+    private string $mediaType = '';
 
     /**
      * @var \EricksonReyes\RestApiResponse\JsonApi\JsonApiResponse|null
@@ -66,6 +91,10 @@ class FeatureContext implements Context
     {
         $this->authors = [];
         $this->articles = [];
+        $this->pagination = [];
+        $this->exceptions = [];
+        $this->meta = [];
+        $this->metaCollection = [];
         $this->baseUrl = '';
         $this->links = [];
     }
@@ -77,20 +106,25 @@ class FeatureContext implements Context
     public function thereIsTheFollowingArticles(TableNode $articles): void
     {
         foreach ($articles as $article) {
-            $articleId = $article['id'];
-            $type = 'article';
             $created = (new DateTimeImmutable($article['created']));
             $updated = (new DateTimeImmutable($article['updated']));
 
-            $attributes = [
-                'title' => $article['title'],
-                'body' => $article['body'],
-                'author_id' => $article['author_id'],
-                'created' => $created->format(DateTimeInterface::ATOM),
-                'updated' => $updated->format(DateTimeInterface::ATOM)
+            $this->articles[$article['id']] = [
+                'id' => $article['id'],
+                'type' => 'article',
+                'attributes' => [
+                    'title' => $article['title'],
+                    'body' => $article['body'],
+                    'created' => $created->format(DateTimeInterface::ATOM),
+                    'updated' => $updated->format(DateTimeInterface::ATOM)
+                ],
+                'relationships' => [
+                    [
+                        'id' => $article['author_id'],
+                        'type' => 'people'
+                    ]
+                ]
             ];
-            $this->articles[$articleId] = new Resource(id: $articleId, type: $type, attributes: $attributes);
-            $this->relationships[$articleId] = new JsonApiRelationship($article['author_id'], 'people');
         }
     }
 
@@ -100,15 +134,16 @@ class FeatureContext implements Context
     public function thereIsTheFollowingAuthors(TableNode $authors): void
     {
         foreach ($authors as $author) {
-            $id = $author['id'];
-            $type = 'people';
-            $attributes = [
-                'first_name' => $author['first_name'],
-                'last_name' => $author['last_name'],
-                'age' => (string)$author['age'],
-                'gender' => $author['gender']
+            $this->authors[$author['id']] = [
+                'id' => $author['id'],
+                'type' => 'people',
+                'attributes' => [
+                    'first_name' => $author['first_name'],
+                    'last_name' => $author['last_name'],
+                    'age' => (string)$author['age'],
+                    'gender' => $author['gender']
+                ]
             ];
-            $this->authors[$id] = new Resource(id: $id, type: $type, attributes: $attributes);
         }
     }
 
@@ -118,9 +153,81 @@ class FeatureContext implements Context
     public function thereIsTheFollowingLinks(TableNode $links): void
     {
         foreach ($links as $link) {
-            $name = $link['name'];
-            $url = $link['url'];
-            $this->links[] = new Link(name: $name, url: $url);
+            $this->links[] = [
+                'name' => $link['name'],
+                'url' => $link['url']
+            ];
+        }
+    }
+
+    /**
+     * @Given the base url is :arg1
+     */
+    public function theBaseUrlIs(string $baseUrl): void
+    {
+        $this->baseUrl = $baseUrl;
+    }
+
+
+    /**
+     * @Given there are :arg1 total articles
+     */
+    public function thereAreTotalArticles(int $expectedTotalNumberOfRecords): void
+    {
+        $this->pagination['total_number_of_records'] = $expectedTotalNumberOfRecords;
+    }
+
+    /**
+     * @Given the current page number is :arg1
+     */
+    public function theCurrentPageNumberIs(int $currentPageNumber): void
+    {
+        $this->pagination['page_number'] = $currentPageNumber;
+    }
+
+    /**
+     * @Given the maximum records per page is :arg1
+     */
+    public function theMaximumRecordsPerPageIs(int $maximumRecordsPerPage): void
+    {
+        $this->pagination['records_per_page'] = $maximumRecordsPerPage;
+    }
+
+    /**
+     * @Given there is an exception raised with the following information:
+     */
+    public function thereIsAnExceptionRaisedWithTheFollowingInformation(TableNode $exceptions): void
+    {
+        foreach ($exceptions as $exception) {
+            $this->exceptions[] = [
+                'status_code' => $exception['http_status_code'],
+                'source' => $exception['source'],
+                'title' => $exception['title'],
+                'detail' => $exception['detail']
+            ];
+        }
+    }
+
+    /**
+     * @Given there is the following meta information:
+     */
+    public function thereIsTheFollowingMetaInformation(TableNode $metas): void
+    {
+        foreach ($metas as $meta) {
+            $this->meta[] = [
+                'title' => $meta['title'],
+                'description' => $meta['description']
+            ];
+        }
+    }
+
+    /**
+     * @Given there is the following :arg1 meta collection:
+     */
+    public function thereIsTheFollowingMetaCollection(string $collectionName, TableNode $collection): void
+    {
+        foreach ($collection as $meta) {
+            $this->metaCollection[$collectionName][] = $meta['name'];
         }
     }
 
@@ -129,7 +236,7 @@ class FeatureContext implements Context
      */
     public function theHttpResponseStatusIs(int $httpResponseStatusCode): void
     {
-        throw new PendingException();
+        $this->httpResponseStatusCode = $httpResponseStatusCode;
     }
 
     /**
@@ -140,19 +247,26 @@ class FeatureContext implements Context
         $resources = new JsonApiResources('data');
         $this->jsonApiResponse = new JsonApiResponse();
 
+        if (!empty($this->baseUrl)) {
+            $resources->setBaseUrl($this->baseUrl);
+        }
+
         if (!empty($this->articles)) {
             foreach ($this->articles as $article) {
                 $resource = new JsonApiResource(
-                    $article->id(),
-                    $article->type(),
-                    $article->attributes()
+                    id: $article['id'],
+                    type: $article['type'],
+                    attributes: $article['attributes']
                 );
 
-                $relationships = new JsonApiRelationships('authors');
-                foreach ($this->relationships as $articleId => $author) {
-                    if ($article->id() === (string)$articleId) {
-                        $relationships->addRelationship($author);
-                    }
+                $relationships = new JsonApiRelationships('author');
+                foreach ($article['relationships'] as $relationship) {
+                    $relationships->addRelationship(
+                        new JsonApiRelationship(
+                            id: $relationship['id'],
+                            type: $relationship['type']
+                        )
+                    );
                 }
                 $resource->withRelationships($relationships);
 
@@ -160,10 +274,26 @@ class FeatureContext implements Context
             }
         }
 
+        if (($this->pagination['total_number_of_records'] ?? 0) > 0 &&
+            ($this->pagination['records_per_page'] ?? 0) > 0 &&
+            ($this->pagination['page_number'] ?? 0) > 0
+        ) {
+            $resources->withPagination(
+                numberOfRecords: $this->pagination['total_number_of_records'],
+                recordsPerPage: $this->pagination['records_per_page'],
+                currentPageNumber: $this->pagination['page_number']
+            );
+        }
+
         if (!empty($this->links)) {
             $links = new Links();
             foreach ($this->links as $link) {
-                $links->addLink($link);
+                $links->addLink(
+                    new Link(
+                        name: $link['name'],
+                        url: $link['url']
+                    )
+                );
             }
             $resources->withLinks($links);
         }
@@ -173,9 +303,9 @@ class FeatureContext implements Context
             foreach ($this->authors as $author) {
                 $resources->addIncludedResource(
                     new Resource(
-                        $author->id(),
-                        $author->type(),
-                        $author->attributes()
+                        id: $author['id'],
+                        type: $author['type'],
+                        attributes: $author['attributes']
                     )
                 );
             }
@@ -218,61 +348,5 @@ class FeatureContext implements Context
             'Expected media type was not met. Actual media type is: ' .
             $this->jsonApiResponse->mediaType()
         );
-    }
-
-    /**
-     * @Given there are :arg1 total pages in the collection
-     */
-    public function thereAreTotalPagesInTheCollection(int $expectedTotalPages): void
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Given the current page number is :arg1
-     */
-    public function theCurrentPageNumberIs(int $currentPageNumber): void
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Given the maximum records per page is :arg1
-     */
-    public function theMaximumRecordsPerPageIs(int $maximumRecordsPerPage): void
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Given the base url is :arg1
-     */
-    public function theBaseUrlIs(string $baseUrl)
-    {
-        $this->baseUrl = $baseUrl;
-    }
-
-    /**
-     * @Given there is an exception raised with the following information:
-     */
-    public function thereIsAnExceptionRaisedWithTheFollowingInformation(TableNode $exceptions): void
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Given there is the following meta information:
-     */
-    public function thereIsTheFollowingMetaInformation(TableNode $metaCollection): void
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Given there is the following :arg1 meta collection:
-     */
-    public function thereIsTheFollowingMetaCollection(string $metaCollectionName, TableNode $metaCollection): void
-    {
-        throw new PendingException();
     }
 }

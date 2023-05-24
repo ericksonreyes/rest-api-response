@@ -26,11 +26,6 @@ abstract class Collection implements Iterator, Countable
      */
     private int $count = 0;
 
-    public function __construct()
-    {
-        $this->position = 0;
-    }
-
     /**
      * @return void
      */

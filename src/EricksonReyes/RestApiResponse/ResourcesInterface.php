@@ -9,7 +9,7 @@ use Iterator;
  * Interface ResourcesInterface
  * @package EricksonReyes\RestApiResponse
  */
-interface ResourcesInterface extends Iterator, Countable
+interface ResourcesInterface extends Iterator, Countable, PaginatedResourcesInterface
 {
 
     /**
@@ -31,4 +31,9 @@ interface ResourcesInterface extends Iterator, Countable
      * @return \EricksonReyes\RestApiResponse\ErrorsInterface
      */
     public function errors(): ErrorsInterface;
+
+    /**
+     * @return string
+     */
+    public function baseUrl(): string;
 }

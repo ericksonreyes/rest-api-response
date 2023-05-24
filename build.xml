@@ -172,6 +172,10 @@
                     '${project.basedir}/phpmd.xml'
                     --reportfile '${phpmd.reportsdir}/index.html'
                     --suffixes php
+                    --exclude
+                        ${project.basedir}/build/,
+                        ${project.basedir}/specs/,
+                        ${project.basedir}/vendor/
                     "
         />
     </target>

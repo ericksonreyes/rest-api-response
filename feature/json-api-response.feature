@@ -27,12 +27,11 @@ Feature: Generating a JSON API collection
             "attributes": {
               "title": "Basketball for kids.",
               "body": "Learn basketball at early age.",
-              "author_id": "8",
               "created": "2015-05-22T02:59:29+00:00",
               "updated": "2015-05-22T02:59:30+00:00"
             },
             "relationships": {
-              "authors": {
+              "author": {
                 "data": {
                   "id": "8",
                   "type": "people"
@@ -46,12 +45,11 @@ Feature: Generating a JSON API collection
             "attributes": {
               "title": "Swimming for Middle School.",
               "body": "Play and slay in middle school swimming.",
-              "author_id": "9",
               "created": "2019-01-22T02:59:29+00:00",
               "updated": "2019-02-22T06:00:30+00:00"
             },
             "relationships": {
-              "authors": {
+              "author": {
                 "data": {
                   "id": "9",
                   "type": "people"
@@ -88,6 +86,7 @@ Feature: Generating a JSON API collection
     And the media type should be "application/vnd.api+json"
 
 
+  @test
   Scenario: Generating a JSON API collection with pagination.
     Given there is the following articles:
       | id | title                       | body                                     | author_id | created                      | updated                  |
@@ -97,13 +96,11 @@ Feature: Generating a JSON API collection
       | id | first_name | last_name | age | gender |
       | 8  | Seiji      | Reyes     | 10  | male   |
       | 9  | Summer     | Reyes     | 13  | female |
-    And there are 13 total pages in the collection
-    And the current page number is 3
-    And the maximum records per page is 2
-    And the base url is "http://example.com/"
+    And there are 118 total articles
+    And the current page number is 2
+    And the maximum records per page is 10
     And the http response status code is 200
-    And the media type should be "application/vnd.api+json"
-
+    And the base url is "http://example.com/articles?page[number]=2&page[size]=10"
     When a JSON API response is asked to be generated
     Then the library will return:
       """
@@ -111,26 +108,30 @@ Feature: Generating a JSON API collection
         "jsonapi": {
           "version": "1.1"
         },
-        {
-          "links": {
-            "self": "http://example.com/articles"
-          }
-        },
         "meta": {
-          "totalPages": 13
+          "total": "118",
+          "page": {
+            "size": "10",
+            "total": "11",
+            "first": "1",
+            "previous": "1",
+            "current": "2",
+            "next": "3",
+            "last": "11"
+          }
         },
         "data": [
           {
-            "type": "articles",
+            "type": "article",
             "id": "1",
             "attributes": {
               "title": "Basketball for kids.",
               "body": "Learn basketball at early age.",
-              "created": "2015-05-22T14:56:29.000Z",
-              "updated": "2015-05-22T14:56:30.000Z"
+              "created": "2015-05-22T02:59:29+00:00",
+              "updated": "2015-05-22T02:59:30+00:00"
             },
             "relationships": {
-              "authors": {
+              "author": {
                 "data": {
                   "id": "8",
                   "type": "people"
@@ -139,18 +140,18 @@ Feature: Generating a JSON API collection
             }
           },
           {
-            "type": "articles",
+            "type": "article",
             "id": "2",
             "attributes": {
               "title": "Swimming for Middle School.",
               "body": "Play and slay in middle school swimming.",
-              "created": "2019-01-22T02:59:29.000Z",
-              "updated": "2019-02-22T06:00:30.000Z"
+              "created": "2019-01-22T02:59:29+00:00",
+              "updated": "2019-02-22T06:00:30+00:00"
             },
             "relationships": {
               "author": {
                 "data": {
-                  "id": "13",
+                  "id": "9",
                   "type": "people"
                 }
               }
@@ -164,7 +165,7 @@ Feature: Generating a JSON API collection
             "attributes": {
               "first_name": "Seiji",
               "last_name": "Reyes",
-              "age": 10,
+              "age": "10",
               "gender": "male"
             }
           },
@@ -174,17 +175,17 @@ Feature: Generating a JSON API collection
             "attributes": {
               "first_name": "Summer",
               "last_name": "Reyes",
-              "age": 13,
+              "age": "13",
               "gender": "female"
             }
           }
         ],
         "links": {
-          "self": "http://example.com/articles?page[number]=3&page[size]=1",
-          "first": "http://example.com/articles?page[number]=1&page[size]=1",
-          "prev": "http://example.com/articles?page[number]=2&page[size]=1",
-          "next": "http://example.com/articles?page[number]=4&page[size]=1",
-          "last": "http://example.com/articles?page[number]=13&page[size]=1"
+          "self": "http:\/\/example.com\/articles?page[number]=2&page[size]=10",
+          "first": "http:\/\/example.com\/articles?page[number]=1&page[size]=10",
+          "previous": "http:\/\/example.com\/articles?page[number]=1&page[size]=10",
+          "next": "http:\/\/example.com\/articles?page[number]=3&page[size]=10",
+          "last": "http:\/\/example.com\/articles?page[number]=11&page[size]=10"
         }
       }
       """
@@ -307,7 +308,7 @@ Feature: Generating a JSON API collection
     And there is the following meta information:
       | title     | description                  |
       | copyright | Copyright 2015 Example Corp. |
-    And there is the following "authors" meta collection:
+    And there is the following "author" meta collection:
       | name          |
       | Yehuda Katz   |
       | Steve Klabnik |
@@ -322,7 +323,7 @@ Feature: Generating a JSON API collection
         },
         "meta": {
           "copyright": "Copyright 2015 Example Corp.",
-          "authors": [
+          "author": [
             "Yehuda Katz",
             "Steve Klabnik",
             "Dan Gebhardt",
@@ -408,7 +409,6 @@ Feature: Generating a JSON API collection
       | name    | url            |
       | self    | /articles      |
       | related | /articles/tags |
-    And the base url is "http://example.com/"
     When a JSON API response is asked to be generated
     Then the library will return:
       """
@@ -491,7 +491,6 @@ Feature: Generating a JSON API collection
   Scenario: Generating a JSON API empty collection.
     Given there is the following articles:
       | id | title | body | author_id | created | updated |
-    And the base url is "http://example.com/"
     When a JSON API response is asked to be generated
     Then the library will return:
       """

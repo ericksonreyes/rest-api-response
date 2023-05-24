@@ -22,7 +22,6 @@ class JsonApiRelationships extends Collection implements JsonApiRelationshipsInt
      */
     public function __construct(private readonly string $name)
     {
-        parent::__construct();
     }
 
     /**
