@@ -5,6 +5,7 @@ namespace EricksonReyes\RestApiResponse;
 use \EricksonReyes\RestApiResponse\ResponseStatusAwareInterface as StatusAware;
 use \EricksonReyes\RestApiResponse\ResponseMediaTypeAwareInterface as MediaAware;
 use \EricksonReyes\RestApiResponse\ResponseSpecificationInterface as SpecificationAware;
+
 /**
  * Interface ResponseInterface
  * @package EricksonReyes\RestApiResponse

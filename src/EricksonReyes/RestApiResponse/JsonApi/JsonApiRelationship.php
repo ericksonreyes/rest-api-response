@@ -2,7 +2,6 @@
 
 namespace EricksonReyes\RestApiResponse\JsonApi;
 
-
 /**
  * Class JsonApiRelationship
  * @package EricksonReyes\RestApiResponse\JsonApi
@@ -33,6 +32,4 @@ class JsonApiRelationship implements JsonApiRelationshipInterface
     {
         return $this->type;
     }
-
-
 }

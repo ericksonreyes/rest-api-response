@@ -2,7 +2,6 @@
 
 namespace EricksonReyes\RestApiResponse\JsonApi;
 
-
 use EricksonReyes\RestApiResponse\Collection;
 use EricksonReyes\RestApiResponse\LinksInterface;
 
@@ -35,6 +34,15 @@ class JsonApiRelationships extends Collection implements JsonApiRelationshipsInt
     }
 
     /**
+     * @param \EricksonReyes\RestApiResponse\JsonApi\JsonApiRelationshipInterface $relationship
+     * @return void
+     */
+    public function addRelationship(JsonApiRelationshipInterface $relationship): void
+    {
+        $this->addItem($relationship);
+    }
+
+    /**
      * @return \EricksonReyes\RestApiResponse\JsonApi\JsonApiRelationshipInterface[]
      */
     public function relationships(): array
@@ -58,6 +66,4 @@ class JsonApiRelationships extends Collection implements JsonApiRelationshipsInt
     {
         return $this->links;
     }
-
-
 }

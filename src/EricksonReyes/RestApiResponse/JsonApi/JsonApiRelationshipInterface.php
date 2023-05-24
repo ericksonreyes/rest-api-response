@@ -2,7 +2,6 @@
 
 namespace EricksonReyes\RestApiResponse\JsonApi;
 
-
 /**
  * Interface JsonApiResourceRelationshipInterface
  * @package EricksonReyes\RestApiResponse\JsonApi
@@ -19,5 +18,4 @@ interface JsonApiRelationshipInterface
      * @return string
      */
     public function type(): string;
-
 }

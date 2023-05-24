@@ -10,9 +10,9 @@ interface ResponseStatusAwareInterface
 {
 
     /**
-     * @return string
+     * @return int
      */
-    public function httpStatusCode(): string;
+    public function httpStatusCode(): int;
 
     /**
      * @return string

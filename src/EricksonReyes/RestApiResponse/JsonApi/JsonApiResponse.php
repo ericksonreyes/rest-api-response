@@ -2,7 +2,6 @@
 
 namespace EricksonReyes\RestApiResponse\JsonApi;
 
-use EricksonReyes\RestApiResponse\ResourceInterface;
 use EricksonReyes\RestApiResponse\ResourcesInterface;
 
 /**
@@ -12,30 +11,36 @@ use EricksonReyes\RestApiResponse\ResourcesInterface;
 class JsonApiResponse implements JsonApiResponseInterface
 {
 
+    public const API_VERSION = '1.1';
+
     /**
      * @var \EricksonReyes\RestApiResponse\LinkInterface[]
      */
     private array $links = [];
 
     /**
-     * @var \EricksonReyes\RestApiResponse\JsonApi\JsonApiResourceInterface[]
-     */
-    private array $included = [];
-
-    /**
      * @var int
      */
     private int $httpStatusCode = 200;
 
+    /**
+     * @var string
+     */
     private string $httpResponseDescription = 'OK';
 
     /**
-     * @param \EricksonReyes\RestApiResponse\ResourcesInterface $resources
+     * @var \EricksonReyes\RestApiResponse\ResourcesInterface|null
      */
-    public function __construct(private readonly ResourcesInterface $resources)
-    {
-    }
+    private ?ResourcesInterface $resources;
 
+    /**
+     * @param \EricksonReyes\RestApiResponse\ResourcesInterface $resources
+     * @return void
+     */
+    public function withResources(ResourcesInterface $resources): void
+    {
+        $this->resources = $resources;
+    }
 
     /**
      * @return string
@@ -58,7 +63,7 @@ class JsonApiResponse implements JsonApiResponseInterface
      */
     public function specificationVersion(): string
     {
-        return '1.1';
+        return self::API_VERSION;
     }
 
     /**
@@ -80,9 +85,9 @@ class JsonApiResponse implements JsonApiResponseInterface
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function httpStatusCode(): string
+    public function httpStatusCode(): int
     {
         return $this->httpStatusCode;
     }
@@ -101,10 +106,8 @@ class JsonApiResponse implements JsonApiResponseInterface
     public function array(): array
     {
         $response = [
-            [
-                'jsonapi' => [
-                    'version' => '1.1'
-                ]
+            'jsonapi' => [
+                'version' => '1.1'
             ],
             'data' => []
         ];
@@ -136,16 +139,25 @@ class JsonApiResponse implements JsonApiResponseInterface
      */
     private function addResources(array $response): array
     {
-        foreach ($this->resources->data() as $index => $resource) {
+        $resourceCount = count($this->resources);
+        foreach ($this->resources as $index => $resource) {
+            if ($resourceCount === 1) {
+                $response['data'] = [
+                    'type' => $resource->type(),
+                    'id' => $resource->id(),
+                    'attributes' => $resource->attributes()
+                ];
+                return $this->addRelationships($resource, $response, $index);
+            }
+
             $response['data'][$index] = [
                 'type' => $resource->type(),
                 'id' => $resource->id(),
                 'attributes' => $resource->attributes()
             ];
-
             $response = $this->addRelationships($resource, $response, $index);
         }
-        
+
         return $response;
     }
 
@@ -155,8 +167,18 @@ class JsonApiResponse implements JsonApiResponseInterface
      */
     private function addIncludedResources(array $response): array
     {
-        if (empty($this->included) === false) {
-            foreach ($this->included as $includedResource) {
+        if ($this->resources instanceof JsonApiResourcesInterface) {
+            $includedCount = count($this->resources->included());
+            foreach ($this->resources->included() as $includedResource) {
+                if ($includedCount === 1) {
+                    $response['included'] = [
+                        'type' => $includedResource->type(),
+                        'id' => $includedResource->id(),
+                        'attributes' => $includedResource->attributes(),
+                    ];
+                    return $response;
+                }
+
                 $response['included'][] = [
                     'type' => $includedResource->type(),
                     'id' => $includedResource->id(),
@@ -164,26 +186,38 @@ class JsonApiResponse implements JsonApiResponseInterface
                 ];
             }
         }
+
         return $response;
     }
 
     /**
-     * @param \EricksonReyes\RestApiResponse\ResourceInterface $resource
+     * @param \EricksonReyes\RestApiResponse\JsonApi\JsonApiResourceInterface $resource
      * @param array $response
      * @param int $index
      * @return array
      */
-    private function addRelationships(ResourceInterface $resource, array $response, int $index): array
+    private function addRelationships(JsonApiResourceInterface $resource, array $response, int $index): array
     {
-        if ($resource instanceof JsonApiResourceInterface) {
+        if ($resource->relationships() instanceof JsonApiRelationships) {
+            $relationshipCount = count($resource->relationships());
             foreach ($resource->relationships() as $relationship) {
-                $relationshipName = $relationship->name();
-                foreach ($relationship->data() as $relatedResource) {
-                    $response['data'][$index]['relationships'][$relationshipName]['data'][] = [
-                        'id' => $relatedResource->id(),
-                        'type' => $relatedResource->type()
+                /**
+                 * @var \EricksonReyes\RestApiResponse\JsonApi\JsonApiRelationshipInterface $relationship
+                 */
+                $relationshipName = $resource->relationships()->name();
+
+                if ($relationshipCount === 1) {
+                    $response['data'][$index]['relationships'][$relationshipName]['data'] = [
+                        'id' => $relationship->id(),
+                        'type' => $relationship->type()
                     ];
+                    return $response;
                 }
+
+                $response['data'][$index]['relationships'][$relationshipName]['data'][] = [
+                    'id' => $relationship->id(),
+                    'type' => $relationship->type()
+                ];
             }
         }
         return $response;
@@ -202,6 +236,4 @@ class JsonApiResponse implements JsonApiResponseInterface
         }
         return $response;
     }
-
-
 }

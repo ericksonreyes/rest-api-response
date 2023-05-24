@@ -2,7 +2,6 @@
 
 namespace EricksonReyes\RestApiResponse\JsonApi;
 
-
 use EricksonReyes\RestApiResponse\ResourceInterface;
 use EricksonReyes\RestApiResponse\Resources;
 use EricksonReyes\RestApiResponse\ResourcesInterface;
@@ -14,9 +13,9 @@ use EricksonReyes\RestApiResponse\ResourcesInterface;
 class JsonApiResources extends Resources implements JsonApiResourcesInterface
 {
     /**
-     * @var array
+     * @var \EricksonReyes\RestApiResponse\JsonApi\JsonApiResourceInterface[]
      */
-    private array $includedResources = [];
+    private array $included;
 
     /**
      * @param string $name
@@ -38,17 +37,16 @@ class JsonApiResources extends Resources implements JsonApiResourcesInterface
      * @param \EricksonReyes\RestApiResponse\ResourceInterface $resource
      * @return void
      */
-    public function includeResource(ResourceInterface $resource): void
+    public function addIncludedResource(ResourceInterface $resource): void
     {
-        $this->includedResources[] = $resource;
+        $this->included[] = $resource;
     }
 
     /**
-     * @return \EricksonReyes\RestApiResponse\ResourcesInterface
+     * @return \EricksonReyes\RestApiResponse\JsonApi\JsonApiResourceInterface[]
      */
-    public function included(): ResourcesInterface
+    public function included(): array
     {
-        return $this->includedResources;
+        return $this->included;
     }
-
 }

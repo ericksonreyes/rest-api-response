@@ -6,7 +6,7 @@ namespace EricksonReyes\RestApiResponse;
  * Class Resources
  * @package EricksonReyes\RestApiResponse
  */
-class Resources extends Collection implements ResourcesInterface, ResponseStatusAware
+class Resources extends Collection implements ResourcesInterface
 {
     /**
      * @var \EricksonReyes\RestApiResponse\LinksInterface|null
@@ -92,5 +92,4 @@ class Resources extends Collection implements ResourcesInterface, ResponseStatus
     {
         return $this->errors;
     }
-
 }

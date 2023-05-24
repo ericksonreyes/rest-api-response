@@ -2,7 +2,6 @@
 
 namespace EricksonReyes\RestApiResponse\JsonApi;
 
-
 use EricksonReyes\RestApiResponse\Resource;
 
 /**
@@ -15,8 +14,7 @@ class JsonApiResource extends Resource implements JsonApiResourceInterface
     /**
      * @var \EricksonReyes\RestApiResponse\JsonApi\JsonApiRelationshipsInterface|null
      */
-    private ?JsonApiRelationshipsInterface $relationships;
-
+    private ?JsonApiRelationshipsInterface $relationships = null;
 
     /**
      * @param \EricksonReyes\RestApiResponse\JsonApi\JsonApiRelationshipsInterface $relationships
@@ -28,12 +26,10 @@ class JsonApiResource extends Resource implements JsonApiResourceInterface
     }
 
     /**
-     * @return \EricksonReyes\RestApiResponse\JsonApi\JsonApiRelationshipsInterface
+     * @return \EricksonReyes\RestApiResponse\JsonApi\JsonApiRelationshipsInterface|null
      */
-    public function relationships(): JsonApiRelationshipsInterface
+    public function relationships(): ?JsonApiRelationshipsInterface
     {
         return $this->relationships;
     }
-
-
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1684900137">
-  <project timestamp="1684900137">
+<coverage generated="1684921868">
+  <project timestamp="1684921868">
     <file name="/var/www/html/src/EricksonReyes/RestApiResponse/Collection.php">
       <class name="EricksonReyes\RestApiResponse\Collection" namespace="global">
         <metrics complexity="9" methods="9" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="10" coveredstatements="0" elements="19" coveredelements="0"/>
@@ -78,70 +78,162 @@
     <file name="/var/www/html/src/EricksonReyes/RestApiResponse/HttpResponseStatusCodeAwareInterface.php">
       <metrics loc="16" ncloc="9" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
+    <file name="/var/www/html/src/EricksonReyes/RestApiResponse/JsonApi/JsonApiRelationship.php">
+      <class name="EricksonReyes\RestApiResponse\JsonApi\JsonApiRelationship" namespace="global">
+        <metrics complexity="3" methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="0" elements="6" coveredelements="0"/>
+      </class>
+      <line num="16" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="18" type="stmt" count="0"/>
+      <line num="23" type="method" name="id" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="25" type="stmt" count="0"/>
+      <line num="31" type="method" name="type" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="33" type="stmt" count="0"/>
+      <metrics loc="36" ncloc="22" classes="1" methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="0" elements="6" coveredelements="0"/>
+    </file>
+    <file name="/var/www/html/src/EricksonReyes/RestApiResponse/JsonApi/JsonApiRelationshipInterface.php">
+      <metrics loc="22" ncloc="12" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <file name="/var/www/html/src/EricksonReyes/RestApiResponse/JsonApi/JsonApiRelationships.php">
+      <class name="EricksonReyes\RestApiResponse\JsonApi\JsonApiRelationships" namespace="global">
+        <metrics complexity="6" methods="6" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="0" elements="12" coveredelements="0"/>
+      </class>
+      <line num="23" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="25" type="stmt" count="0"/>
+      <line num="31" type="method" name="name" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="33" type="stmt" count="0"/>
+      <line num="40" type="method" name="addRelationship" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="42" type="stmt" count="0"/>
+      <line num="48" type="method" name="relationships" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="50" type="stmt" count="0"/>
+      <line num="57" type="method" name="withLinks" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="59" type="stmt" count="0"/>
+      <line num="65" type="method" name="links" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="67" type="stmt" count="0"/>
+      <metrics loc="70" ncloc="43" classes="1" methods="6" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="0" elements="12" coveredelements="0"/>
+    </file>
+    <file name="/var/www/html/src/EricksonReyes/RestApiResponse/JsonApi/JsonApiRelationshipsInterface.php">
+      <metrics loc="29" ncloc="16" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <file name="/var/www/html/src/EricksonReyes/RestApiResponse/JsonApi/JsonApiResource.php">
+      <class name="EricksonReyes\RestApiResponse\JsonApi\JsonApiResource" namespace="global">
+        <metrics complexity="2" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="0" elements="4" coveredelements="0"/>
+      </class>
+      <line num="23" type="method" name="withRelationships" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="25" type="stmt" count="0"/>
+      <line num="31" type="method" name="relationships" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="33" type="stmt" count="0"/>
+      <metrics loc="36" ncloc="22" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="0" elements="4" coveredelements="0"/>
+    </file>
     <file name="/var/www/html/src/EricksonReyes/RestApiResponse/JsonApi/JsonApiResourceInterface.php">
       <metrics loc="19" ncloc="12" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
-    <file name="/var/www/html/src/EricksonReyes/RestApiResponse/JsonApi/JsonApiResourceRelationshipsInterface.php">
-      <metrics loc="18" ncloc="11" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    <file name="/var/www/html/src/EricksonReyes/RestApiResponse/JsonApi/JsonApiResources.php">
+      <class name="EricksonReyes\RestApiResponse\JsonApi\JsonApiResources" namespace="global">
+        <metrics complexity="4" methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="0" elements="8" coveredelements="0"/>
+      </class>
+      <line num="23" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="25" type="stmt" count="0"/>
+      <line num="31" type="method" name="name" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="33" type="stmt" count="0"/>
+      <line num="40" type="method" name="addIncludedResource" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="42" type="stmt" count="0"/>
+      <line num="48" type="method" name="included" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="50" type="stmt" count="0"/>
+      <metrics loc="53" ncloc="33" classes="1" methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="0" elements="8" coveredelements="0"/>
     </file>
     <file name="/var/www/html/src/EricksonReyes/RestApiResponse/JsonApi/JsonApiResourcesInterface.php">
       <metrics loc="24" ncloc="14" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
     <file name="/var/www/html/src/EricksonReyes/RestApiResponse/JsonApi/JsonApiResponse.php">
       <class name="EricksonReyes\RestApiResponse\JsonApi\JsonApiResponse" namespace="global">
-        <metrics complexity="17" methods="7" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="43" coveredstatements="0" elements="50" coveredelements="0"/>
+        <metrics complexity="25" methods="15" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="70" coveredstatements="0" elements="85" coveredelements="0"/>
       </class>
-      <line num="33" type="method" name="array" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="35" type="stmt" count="0"/>
-      <line num="36" type="stmt" count="0"/>
-      <line num="37" type="stmt" count="0"/>
-      <line num="38" type="stmt" count="0"/>
-      <line num="39" type="stmt" count="0"/>
-      <line num="40" type="stmt" count="0"/>
-      <line num="41" type="stmt" count="0"/>
+      <line num="40" type="method" name="withResources" visibility="public" complexity="1" crap="2" count="0"/>
       <line num="42" type="stmt" count="0"/>
-      <line num="44" type="stmt" count="0"/>
-      <line num="45" type="stmt" count="0"/>
-      <line num="46" type="stmt" count="0"/>
-      <line num="52" type="method" name="__toString" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="54" type="stmt" count="0"/>
-      <line num="60" type="method" name="jsonSerialize" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="62" type="stmt" count="0"/>
-      <line num="69" type="method" name="addResources" visibility="private" complexity="3" crap="12" count="0"/>
-      <line num="71" type="stmt" count="0"/>
-      <line num="72" type="stmt" count="0"/>
-      <line num="73" type="stmt" count="0"/>
-      <line num="74" type="stmt" count="0"/>
+      <line num="48" type="method" name="mediaType" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="50" type="stmt" count="0"/>
+      <line num="56" type="method" name="specificationName" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="58" type="stmt" count="0"/>
+      <line num="64" type="method" name="specificationVersion" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="66" type="stmt" count="0"/>
+      <line num="73" type="method" name="setHttpStatusCode" visibility="public" complexity="1" crap="2" count="0"/>
       <line num="75" type="stmt" count="0"/>
-      <line num="76" type="stmt" count="0"/>
-      <line num="77" type="stmt" count="0"/>
-      <line num="79" type="stmt" count="0"/>
-      <line num="82" type="stmt" count="0"/>
-      <line num="89" type="method" name="addIncludedResources" visibility="private" complexity="3" crap="12" count="0"/>
-      <line num="91" type="stmt" count="0"/>
+      <line num="82" type="method" name="describeHttpResponse" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="84" type="stmt" count="0"/>
+      <line num="90" type="method" name="httpStatusCode" visibility="public" complexity="1" crap="2" count="0"/>
       <line num="92" type="stmt" count="0"/>
-      <line num="93" type="stmt" count="0"/>
-      <line num="94" type="stmt" count="0"/>
-      <line num="95" type="stmt" count="0"/>
-      <line num="96" type="stmt" count="0"/>
-      <line num="97" type="stmt" count="0"/>
+      <line num="98" type="method" name="httpResponseDescription" visibility="public" complexity="1" crap="2" count="0"/>
       <line num="100" type="stmt" count="0"/>
-      <line num="109" type="method" name="addRelationships" visibility="private" complexity="5" crap="30" count="0"/>
+      <line num="106" type="method" name="array" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="108" type="stmt" count="0"/>
+      <line num="109" type="stmt" count="0"/>
+      <line num="110" type="stmt" count="0"/>
       <line num="111" type="stmt" count="0"/>
       <line num="112" type="stmt" count="0"/>
       <line num="113" type="stmt" count="0"/>
-      <line num="114" type="stmt" count="0"/>
       <line num="115" type="stmt" count="0"/>
       <line num="116" type="stmt" count="0"/>
       <line num="117" type="stmt" count="0"/>
-      <line num="118" type="stmt" count="0"/>
-      <line num="122" type="stmt" count="0"/>
-      <line num="129" type="method" name="addLinks" visibility="private" complexity="3" crap="12" count="0"/>
-      <line num="131" type="stmt" count="0"/>
-      <line num="132" type="stmt" count="0"/>
+      <line num="123" type="method" name="__toString" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="125" type="stmt" count="0"/>
+      <line num="131" type="method" name="jsonSerialize" visibility="public" complexity="1" crap="2" count="0"/>
       <line num="133" type="stmt" count="0"/>
-      <line num="136" type="stmt" count="0"/>
-      <metrics loc="139" ncloc="99" classes="1" methods="7" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="43" coveredstatements="0" elements="50" coveredelements="0"/>
+      <line num="140" type="method" name="addResources" visibility="private" complexity="3" crap="12" count="0"/>
+      <line num="142" type="stmt" count="0"/>
+      <line num="143" type="stmt" count="0"/>
+      <line num="144" type="stmt" count="0"/>
+      <line num="145" type="stmt" count="0"/>
+      <line num="146" type="stmt" count="0"/>
+      <line num="147" type="stmt" count="0"/>
+      <line num="148" type="stmt" count="0"/>
+      <line num="149" type="stmt" count="0"/>
+      <line num="150" type="stmt" count="0"/>
+      <line num="153" type="stmt" count="0"/>
+      <line num="154" type="stmt" count="0"/>
+      <line num="155" type="stmt" count="0"/>
+      <line num="156" type="stmt" count="0"/>
+      <line num="157" type="stmt" count="0"/>
+      <line num="158" type="stmt" count="0"/>
+      <line num="161" type="stmt" count="0"/>
+      <line num="168" type="method" name="addIncludedResources" visibility="private" complexity="4" crap="20" count="0"/>
+      <line num="170" type="stmt" count="0"/>
+      <line num="171" type="stmt" count="0"/>
+      <line num="172" type="stmt" count="0"/>
+      <line num="173" type="stmt" count="0"/>
+      <line num="174" type="stmt" count="0"/>
+      <line num="175" type="stmt" count="0"/>
+      <line num="176" type="stmt" count="0"/>
+      <line num="177" type="stmt" count="0"/>
+      <line num="178" type="stmt" count="0"/>
+      <line num="179" type="stmt" count="0"/>
+      <line num="182" type="stmt" count="0"/>
+      <line num="183" type="stmt" count="0"/>
+      <line num="184" type="stmt" count="0"/>
+      <line num="185" type="stmt" count="0"/>
+      <line num="186" type="stmt" count="0"/>
+      <line num="190" type="stmt" count="0"/>
+      <line num="199" type="method" name="addRelationships" visibility="private" complexity="4" crap="20" count="0"/>
+      <line num="201" type="stmt" count="0"/>
+      <line num="202" type="stmt" count="0"/>
+      <line num="203" type="stmt" count="0"/>
+      <line num="207" type="stmt" count="0"/>
+      <line num="209" type="stmt" count="0"/>
+      <line num="210" type="stmt" count="0"/>
+      <line num="211" type="stmt" count="0"/>
+      <line num="212" type="stmt" count="0"/>
+      <line num="213" type="stmt" count="0"/>
+      <line num="214" type="stmt" count="0"/>
+      <line num="217" type="stmt" count="0"/>
+      <line num="218" type="stmt" count="0"/>
+      <line num="219" type="stmt" count="0"/>
+      <line num="220" type="stmt" count="0"/>
+      <line num="223" type="stmt" count="0"/>
+      <line num="230" type="method" name="addLinks" visibility="private" complexity="3" crap="12" count="0"/>
+      <line num="232" type="stmt" count="0"/>
+      <line num="233" type="stmt" count="0"/>
+      <line num="234" type="stmt" count="0"/>
+      <line num="237" type="stmt" count="0"/>
+      <metrics loc="240" ncloc="167" classes="1" methods="15" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="70" coveredstatements="0" elements="85" coveredelements="0"/>
     </file>
     <file name="/var/www/html/src/EricksonReyes/RestApiResponse/JsonApi/JsonApiResponseInterface.php">
       <metrics loc="16" ncloc="12" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
@@ -255,7 +347,7 @@
       <metrics loc="35" ncloc="19" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
     <file name="/var/www/html/src/EricksonReyes/RestApiResponse/ResponseInterface.php">
-      <metrics loc="22" ncloc="12" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      <metrics loc="26" ncloc="16" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
     <file name="/var/www/html/src/EricksonReyes/RestApiResponse/ResponseMediaTypeAwareInterface.php">
       <metrics loc="16" ncloc="9" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
@@ -266,6 +358,6 @@
     <file name="/var/www/html/src/EricksonReyes/RestApiResponse/ResponseStatusAwareInterface.php">
       <metrics loc="22" ncloc="12" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
-    <metrics files="31" loc="1058" ncloc="653" classes="8" methods="39" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="94" coveredstatements="24" elements="133" coveredelements="31"/>
+    <metrics files="36" loc="1391" ncloc="862" classes="12" methods="62" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="136" coveredstatements="24" elements="198" coveredelements="31"/>
   </project>
 </coverage>

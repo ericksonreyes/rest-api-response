@@ -95,6 +95,4 @@ class Resource implements ResourceInterface
     {
         $this->links = $links;
     }
-
-
 }

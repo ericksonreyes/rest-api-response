@@ -17,23 +17,22 @@ Feature: Generating a JSON API collection
     Then the library will return:
       """
       {
-        {
-          "jsonapi": {
-            "version": "1.1"
-          }
+        "jsonapi": {
+          "version": "1.1"
         },
         "data": [
           {
-            "type": "articles",
+            "type": "article",
             "id": "1",
             "attributes": {
               "title": "Basketball for kids.",
               "body": "Learn basketball at early age.",
-              "created": "2015-05-22T14:56:29.000Z",
-              "updated": "2015-05-22T14:56:30.000Z"
+              "author_id": "8",
+              "created": "2015-05-22T02:59:29+00:00",
+              "updated": "2015-05-22T02:59:30+00:00"
             },
             "relationships": {
-              "author": {
+              "authors": {
                 "data": {
                   "id": "8",
                   "type": "people"
@@ -42,18 +41,19 @@ Feature: Generating a JSON API collection
             }
           },
           {
-            "type": "articles",
+            "type": "article",
             "id": "2",
             "attributes": {
               "title": "Swimming for Middle School.",
               "body": "Play and slay in middle school swimming.",
-              "created": "2019-01-22T02:59:29.000Z",
-              "updated": "2019-02-22T06:00:30.000Z"
+              "author_id": "9",
+              "created": "2019-01-22T02:59:29+00:00",
+              "updated": "2019-02-22T06:00:30+00:00"
             },
             "relationships": {
-              "author": {
+              "authors": {
                 "data": {
-                  "id": "13",
+                  "id": "9",
                   "type": "people"
                 }
               }
@@ -67,7 +67,7 @@ Feature: Generating a JSON API collection
             "attributes": {
               "first_name": "Seiji",
               "last_name": "Reyes",
-              "age": 10,
+              "age": "10",
               "gender": "male"
             }
           },
@@ -77,7 +77,7 @@ Feature: Generating a JSON API collection
             "attributes": {
               "first_name": "Summer",
               "last_name": "Reyes",
-              "age": 13,
+              "age": "13",
               "gender": "female"
             }
           }
@@ -108,10 +108,8 @@ Feature: Generating a JSON API collection
     Then the library will return:
       """
       {
-        {
-          "jsonapi": {
-            "version": "1.1"
-          }
+        "jsonapi": {
+          "version": "1.1"
         },
         {
           "links": {
@@ -132,7 +130,7 @@ Feature: Generating a JSON API collection
               "updated": "2015-05-22T14:56:30.000Z"
             },
             "relationships": {
-              "author": {
+              "authors": {
                 "data": {
                   "id": "8",
                   "type": "people"
@@ -203,10 +201,8 @@ Feature: Generating a JSON API collection
     Then the library will return:
       """
       {
-        {
-          "jsonapi": {
-            "version": "1.1"
-          }
+        "jsonapi": {
+          "version": "1.1"
         },
         "errors": [
           {
@@ -234,10 +230,8 @@ Feature: Generating a JSON API collection
     When a JSON API response is asked to be generated
     Then the library will return:
       """
-        {
-          "jsonapi": {
-            "version": "1.1"
-          }
+        "jsonapi": {
+          "version": "1.1"
         },
         {
           "errors": [
@@ -274,10 +268,8 @@ Feature: Generating a JSON API collection
     When a JSON API response is asked to be generated
     Then the library will return:
       """
-        {
-          "jsonapi": {
-            "version": "1.1"
-          }
+        "jsonapi": {
+          "version": "1.1"
         },
         "errors": [
           {
@@ -325,10 +317,8 @@ Feature: Generating a JSON API collection
     Then the library will return:
       """
       {
-        {
-          "jsonapi": {
-            "version": "1.1"
-          }
+        "jsonapi": {
+          "version": "1.1"
         },
         "meta": {
           "copyright": "Copyright 2015 Example Corp.",
@@ -423,10 +413,8 @@ Feature: Generating a JSON API collection
     Then the library will return:
       """
       {
-        {
-          "jsonapi": {
-            "version": "1.1"
-          }
+        "jsonapi": {
+          "version": "1.1"
         },
         {
           "links": {
@@ -508,10 +496,8 @@ Feature: Generating a JSON API collection
     Then the library will return:
       """
       {
-        {
-          "jsonapi": {
-            "version": "1.1"
-          }
+        "jsonapi": {
+          "version": "1.1"
         },
         "links": {
           "self": "http://example.com/articles"
