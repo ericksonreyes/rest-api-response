@@ -3,6 +3,10 @@
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
+use EricksonReyes\RestApiResponse\Error;
+use EricksonReyes\RestApiResponse\Errors;
+use EricksonReyes\RestApiResponse\ErrorSource;
+use EricksonReyes\RestApiResponse\ErrorSourceType;
 use EricksonReyes\RestApiResponse\JsonApi\JsonApiRelationship;
 use EricksonReyes\RestApiResponse\JsonApi\JsonApiRelationships;
 use EricksonReyes\RestApiResponse\JsonApi\JsonApiResource;
@@ -199,12 +203,33 @@ class FeatureContext implements Context
     public function thereIsAnExceptionRaisedWithTheFollowingInformation(TableNode $exceptions): void
     {
         foreach ($exceptions as $exception) {
-            $this->exceptions[] = [
-                'status_code' => $exception['http_status_code'],
-                'source' => $exception['source'],
-                'title' => $exception['title'],
-                'detail' => $exception['detail']
-            ];
+            $exceptionArray = [];
+
+            if (isset($exception['status'])) {
+                $exceptionArray['status'] = $exception['status'];
+            }
+
+            if (isset($exception['code'])) {
+                $exceptionArray['code'] = $exception['code'];
+            }
+
+            if (isset($exception['title'])) {
+                $exceptionArray['title'] = $exception['title'];
+            }
+
+            if (isset($exception['source'])) {
+                $exceptionArray['source'] = $exception['source'];
+            }
+
+            if (isset($exception['title'])) {
+                $exceptionArray['title'] = $exception['title'];
+            }
+
+            if (isset($exception['detail'])) {
+                $exceptionArray['detail'] = $exception['detail'];
+            }
+
+            $this->exceptions[] = $exceptionArray;
         }
     }
 
@@ -311,7 +336,37 @@ class FeatureContext implements Context
             }
         }
 
+        if (!empty($this->exceptions)) {
+            $errors = new Errors();
+            foreach ($this->exceptions as $exception) {
+                $error = new Error(
+                    status: (int)$exception['status'],
+                    title: $exception['title'],
+                );
+
+                if (isset($exception['source'])) {
+                    $errorSource = new ErrorSource(
+                        type: ErrorSourceType::Pointer,
+                        source: $exception['source']
+                    );
+                    $error->fromSource(source: $errorSource);
+                }
+
+                if (isset($exception['code'])) {
+                    $error->withCode(code: $exception['code']);
+                }
+
+                if (isset($exception['detail'])) {
+                    $error->withDetail(detail: $exception['detail']);
+                }
+
+                $errors->addError($error);
+            }
+            $this->jsonApiResponse->withErrors($errors);
+        }
+
         $this->jsonApiResponse->withResources($resources);
+        $this->jsonApiResponse->setHttpStatusCode($this->httpResponseStatusCode);
     }
 
     /**

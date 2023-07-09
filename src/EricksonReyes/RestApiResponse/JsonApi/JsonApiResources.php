@@ -4,7 +4,6 @@ namespace EricksonReyes\RestApiResponse\JsonApi;
 
 use EricksonReyes\RestApiResponse\ResourceInterface;
 use EricksonReyes\RestApiResponse\Resources;
-use EricksonReyes\RestApiResponse\ResourcesInterface;
 
 /**
  * Interface JsonApiResources
@@ -15,7 +14,7 @@ class JsonApiResources extends Resources implements JsonApiResourcesInterface
     /**
      * @var \EricksonReyes\RestApiResponse\JsonApi\JsonApiResourceInterface[]
      */
-    private array $included;
+    private array $included = [];
 
     /**
      * @param string $name

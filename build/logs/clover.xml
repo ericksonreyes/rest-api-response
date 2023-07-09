@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1687301446">
-  <project timestamp="1687301446">
+<coverage generated="1688917376">
+  <project timestamp="1688917376">
     <file name="/var/www/html/src/EricksonReyes/RestApiResponse/Collection.php">
       <class name="EricksonReyes\RestApiResponse\Collection" namespace="global">
         <metrics complexity="8" methods="8" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="0" elements="17" coveredelements="0"/>

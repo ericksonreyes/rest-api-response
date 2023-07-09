@@ -30,7 +30,7 @@ interface ErrorInterface
     public function detail(): string;
 
     /**
-     * @return \EricksonReyes\RestApiResponse\ErrorSourceInterface
+     * @return \EricksonReyes\RestApiResponse\ErrorSourceInterface|null
      */
-    public function source(): ErrorSourceInterface;
+    public function source(): ?ErrorSourceInterface;
 }

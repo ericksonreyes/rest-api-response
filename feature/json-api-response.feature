@@ -3,7 +3,6 @@ Feature: Generating a JSON API collection
   I want a REST API response generator library
 
 
-  @test
   Scenario: Generating a JSON API collection.
     Given there is the following articles:
       | id | title                       | body                                     | author_id | created                      | updated                  |
@@ -86,7 +85,6 @@ Feature: Generating a JSON API collection
     And the media type should be "application/vnd.api+json"
 
 
-  @test
   Scenario: Generating a JSON API collection with pagination.
     Given there is the following articles:
       | id | title                       | body                                     | author_id | created                      | updated                  |
@@ -195,8 +193,8 @@ Feature: Generating a JSON API collection
 
   Scenario: Generating a JSON API error response.
     Given there is an exception raised with the following information:
-      | http_status_code | source             | title                        | detail                    |
-      | 422              | File.php, Line 100 | MissingCustomerNameException | Customer name is missing. |
+      | status | source                         | code                         | title                     |
+      | 422    | /data/attributes/customer_name | MissingCustomerNameException | Customer name is missing. |
     And the http response status code is 422
     When a JSON API response is asked to be generated
     Then the library will return:
@@ -209,10 +207,10 @@ Feature: Generating a JSON API collection
           {
             "status": "422",
             "source": {
-              "pointer": "File.php, Line 100"
+              "pointer": "\/data\/attributes\/customer_name"
             },
-            "title":  "MissingCustomerNameException",
-            "detail": "Customer name is missing."
+            "code":  "MissingCustomerNameException",
+            "title": "Customer name is missing."
           }
         ]
       }
@@ -223,37 +221,43 @@ Feature: Generating a JSON API collection
 
   Scenario: Generating a JSON API multiple error response.
     Given there is an exception raised with the following information:
-      | http_status_code | source                        | title                               | detail                                                  |
-      | 403              | /data/attributes/secretPowers |                                     | Editing secret powers is not authorized on Sundays.     |
-      | 422              | /data/attributes/volume       |                                     | Volume does not, in fact, go to 11.                     |
-      | 500              | /data/attributes/reputation   | The backend responded with an error | Reputation service not responding after three requests. |
+      | status | source                        | code                                | title                                                   |
+      | 403    | /data/attributes/secretPowers |                                     | Editing secret powers is not authorized on Sundays.     |
+      | 422    | /data/attributes/volume       |                                     | Volume does not, in fact, go to 11.                     |
+      | 500    | /data/attributes/reputation   | The backend responded with an error | Reputation service not responding after three requests. |
     And the http response status code is 400
     When a JSON API response is asked to be generated
     Then the library will return:
       """
+      {
         "jsonapi": {
           "version": "1.1"
         },
-        {
-          "errors": [
-            {
-              "status": "403",
-              "source": { "pointer": "/data/attributes/secretPowers" },
-              "detail": "Editing secret powers is not authorized on Sundays."
+        "errors": [
+          {
+            "status": "403",
+            "source": {
+              "pointer": "\/data\/attributes\/secretPowers"
             },
-            {
-              "status": "422",
-              "source": { "pointer": "/data/attributes/volume" },
-              "detail": "Volume does not, in fact, go to 11."
+            "title": "Editing secret powers is not authorized on Sundays."
+          },
+          {
+            "status": "422",
+            "source": {
+              "pointer": "\/data\/attributes\/volume"
             },
-            {
-              "status": "500",
-              "source": { "pointer": "/data/attributes/reputation" },
-              "title": "The backend responded with an error",
-              "detail": "Reputation service not responding after three requests."
-            }
-          ]
-        }
+            "title": "Volume does not, in fact, go to 11."
+          },
+          {
+            "status": "500",
+            "source": {
+              "pointer": "\/data\/attributes\/reputation"
+            },
+            "code": "The backend responded with an error",
+            "title": "Reputation service not responding after three requests."
+          }
+        ]
+      }
       """
     And the http response status code should be 400
     And the media type should be "application/vnd.api+json"
@@ -261,41 +265,53 @@ Feature: Generating a JSON API collection
 
   Scenario: Generating a JSON API multiple error response with error codes.
     Given there is an exception raised with the following information:
-      | http_status_code | error_code | source                     | title                                                               | detail                                                    |
-      | 422              | 123        | /data/attributes/firstName | Value is too short                                                  | First name must contain at least two characters.          |
-      | 422              | 225        | /data/attributes/password  | Passwords must contain a letter, number, and punctuation character. | The password provided is missing a punctuation character. |
-      | 422              | 226        | /data/attributes/password  | Password and password confirmation do not match.                    |                                                           |
+      | status | code | source                     | title                                                               | detail                                                    |
+      | 422    | 123  | /data/attributes/firstName | Value is too short                                                  | First name must contain at least two characters.          |
+      | 422    | 225  | /data/attributes/password  | Passwords must contain a letter, number, and punctuation character. | The password provided is missing a punctuation character. |
+      | 422    | 226  | /data/attributes/password  | Password and password confirmation do not match.                    |                                                           |
     And the http response status code is 422
     When a JSON API response is asked to be generated
     Then the library will return:
       """
+      {
         "jsonapi": {
           "version": "1.1"
         },
         "errors": [
           {
+            "status": "422",
+            "source": {
+              "pointer": "\/data\/attributes\/firstName"
+            },
             "code":   "123",
-            "source": { "pointer": "/data/attributes/firstName" },
             "title":  "Value is too short",
             "detail": "First name must contain at least two characters."
           },
           {
+            "status": "422",
+            "source": {
+              "pointer": "\/data\/attributes\/password"
+            },
             "code":   "225",
-            "source": { "pointer": "/data/attributes/password" },
             "title": "Passwords must contain a letter, number, and punctuation character.",
             "detail": "The password provided is missing a punctuation character."
           },
           {
+            "status": "422",
+            "source": {
+              "pointer": "\/data\/attributes\/password"
+            },
             "code":   "226",
-            "source": { "pointer": "/data/attributes/password" },
             "title": "Password and password confirmation do not match."
           }
         ]
+      }
       """
     And the http response status code should be 422
     And the media type should be "application/vnd.api+json"
 
 
+  @test
   Scenario: Generating a JSON API collection with meta information.
     Given there is the following articles:
       | id | title                       | body                                     | author_id | created                      | updated                  |

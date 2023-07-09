@@ -2,6 +2,10 @@
 
 namespace EricksonReyes\RestApiResponse\JsonApi;
 
+use EricksonReyes\RestApiResponse\Errors;
+use EricksonReyes\RestApiResponse\ErrorsInterface;
+use EricksonReyes\RestApiResponse\ErrorSourceInterface;
+use EricksonReyes\RestApiResponse\Resources;
 use EricksonReyes\RestApiResponse\ResourcesInterface;
 
 /**
@@ -24,6 +28,18 @@ class JsonApiResponse implements JsonApiResponseInterface
     private string $httpResponseDescription = 'OK';
 
     /**
+     * @var \EricksonReyes\RestApiResponse\ErrorsInterface
+     */
+    public ErrorsInterface $errors;
+
+
+    public function __construct()
+    {
+        $this->errors = new Errors();
+        $this->resources = new Resources();
+    }
+
+    /**
      * @var \EricksonReyes\RestApiResponse\ResourcesInterface|null
      */
     private ?ResourcesInterface $resources;
@@ -36,6 +52,31 @@ class JsonApiResponse implements JsonApiResponseInterface
     {
         $this->resources = $resources;
     }
+
+    /**
+     * @return \EricksonReyes\RestApiResponse\ResourcesInterface
+     */
+    public function resources(): ResourcesInterface
+    {
+        return $this->resources;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasResources(): bool
+    {
+        return $this->resources->count() > 0;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasNoResources(): bool
+    {
+        return $this->hasResources() === false;
+    }
+
 
     /**
      * @return string
@@ -67,7 +108,9 @@ class JsonApiResponse implements JsonApiResponseInterface
      */
     public function setHttpStatusCode(int $httpStatusCode): void
     {
-        $this->httpStatusCode = $httpStatusCode;
+        if ($httpStatusCode >= 100 && $httpStatusCode < 600) {
+            $this->httpStatusCode = $httpStatusCode;
+        }
     }
 
     /**
@@ -95,6 +138,41 @@ class JsonApiResponse implements JsonApiResponseInterface
         return $this->httpResponseDescription;
     }
 
+
+    /**
+     * @param \EricksonReyes\RestApiResponse\ErrorsInterface $errors
+     * @return void
+     */
+    public function withErrors(ErrorsInterface $errors): void
+    {
+        $this->errors = $errors;
+    }
+
+    /**
+     * @return \EricksonReyes\RestApiResponse\ErrorsInterface
+     */
+    public function errors(): ErrorsInterface
+    {
+        return $this->errors;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasErrors(): bool
+    {
+        return $this->errors->count() > 0;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasNoErrors(): bool
+    {
+        return $this->hasErrors() === false;
+    }
+
+
     /**
      * @return array
      */
@@ -110,6 +188,7 @@ class JsonApiResponse implements JsonApiResponseInterface
         $response = $this->addResources($response);
         $response = $this->addIncludedResources($response);
         $response = $this->addLinks($response);
+        $response = $this->addErrors($response);
         return $this->addPaginationLinks($response);
     }
 
@@ -135,7 +214,6 @@ class JsonApiResponse implements JsonApiResponseInterface
      */
     private function addResources(array $response): array
     {
-        $response['data'] = [];
         $resourceCount = count($this->resources);
         foreach ($this->resources as $index => $resource) {
             if ($resourceCount === 1) {
@@ -237,6 +315,43 @@ class JsonApiResponse implements JsonApiResponseInterface
                 }
             }
         }
+        return $response;
+    }
+
+    /**
+     * @param array $response
+     * @return array
+     */
+    private function addErrors(array $response): array
+    {
+        if ($this->errors()->isNotEmpty()) {
+            /**
+             * @var $error \EricksonReyes\RestApiResponse\ErrorInterface
+             */
+            foreach ($this->errors() as $errorIndex => $error) {
+                $errorArray = [];
+                $errorArray['status'] = (string)$error->status();
+
+                if ($error->source() instanceof ErrorSourceInterface) {
+                    $type = $error->source()->type()->name();
+                    $source = $error->source()->source();
+                    $errorArray['source'][$type] = $source;
+                }
+
+                if (empty($error->code()) === false) {
+                    $errorArray['code'] = $error->code();
+                }
+                if (empty($error->title()) === false) {
+                    $errorArray['title'] = $error->title();
+                }
+                if (empty($error->detail()) === false) {
+                    $errorArray['detail'] = $error->detail();
+                }
+
+                $response['errors'][$errorIndex] = $errorArray;
+            }
+        }
+
         return $response;
     }
 
