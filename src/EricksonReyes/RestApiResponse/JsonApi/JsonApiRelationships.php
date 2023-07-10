@@ -18,9 +18,9 @@ class JsonApiRelationships extends Collection implements JsonApiRelationshipsInt
     private ?LinksInterface $links;
 
     /**
-     * @param string $name
+     * @param string $relation
      */
-    public function __construct(private readonly string $name)
+    public function __construct(private readonly string $relation)
     {
     }
 
@@ -29,7 +29,7 @@ class JsonApiRelationships extends Collection implements JsonApiRelationshipsInt
      */
     public function name(): string
     {
-        return $this->name;
+        return $this->relation;
     }
 
     /**

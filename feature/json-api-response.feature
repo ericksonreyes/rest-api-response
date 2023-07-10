@@ -26,8 +26,8 @@ Feature: Generating a JSON API collection
             "attributes": {
               "title": "Basketball for kids.",
               "body": "Learn basketball at early age.",
-              "created": "2015-05-22T02:59:29+00:00",
-              "updated": "2015-05-22T02:59:30+00:00"
+              "created": 1432263569,
+              "updated": 1432263570
             },
             "relationships": {
               "author": {
@@ -44,8 +44,8 @@ Feature: Generating a JSON API collection
             "attributes": {
               "title": "Swimming for Middle School.",
               "body": "Play and slay in middle school swimming.",
-              "created": "2019-01-22T02:59:29+00:00",
-              "updated": "2019-02-22T06:00:30+00:00"
+              "created": 1548125969,
+              "updated": 1550815230
             },
             "relationships": {
               "author": {
@@ -106,6 +106,13 @@ Feature: Generating a JSON API collection
         "jsonapi": {
           "version": "1.1"
         },
+        "links": {
+          "self": "http:\/\/example.com\/articles?page[number]=2&page[size]=10",
+          "first": "http:\/\/example.com\/articles?page[number]=1&page[size]=10",
+          "previous": "http:\/\/example.com\/articles?page[number]=1&page[size]=10",
+          "next": "http:\/\/example.com\/articles?page[number]=3&page[size]=10",
+          "last": "http:\/\/example.com\/articles?page[number]=11&page[size]=10"
+        },
         "meta": {
           "total": "118",
           "page": {
@@ -125,8 +132,8 @@ Feature: Generating a JSON API collection
             "attributes": {
               "title": "Basketball for kids.",
               "body": "Learn basketball at early age.",
-              "created": "2015-05-22T02:59:29+00:00",
-              "updated": "2015-05-22T02:59:30+00:00"
+              "created": 1432263569,
+              "updated": 1432263570
             },
             "relationships": {
               "author": {
@@ -143,8 +150,8 @@ Feature: Generating a JSON API collection
             "attributes": {
               "title": "Swimming for Middle School.",
               "body": "Play and slay in middle school swimming.",
-              "created": "2019-01-22T02:59:29+00:00",
-              "updated": "2019-02-22T06:00:30+00:00"
+              "created": 1548125969,
+              "updated": 1550815230
             },
             "relationships": {
               "author": {
@@ -177,14 +184,7 @@ Feature: Generating a JSON API collection
               "gender": "female"
             }
           }
-        ],
-        "links": {
-          "self": "http:\/\/example.com\/articles?page[number]=2&page[size]=10",
-          "first": "http:\/\/example.com\/articles?page[number]=1&page[size]=10",
-          "previous": "http:\/\/example.com\/articles?page[number]=1&page[size]=10",
-          "next": "http:\/\/example.com\/articles?page[number]=3&page[size]=10",
-          "last": "http:\/\/example.com\/articles?page[number]=11&page[size]=10"
-        }
+        ]
       }
       """
     And the http response status code should be 200
@@ -203,6 +203,7 @@ Feature: Generating a JSON API collection
         "jsonapi": {
           "version": "1.1"
         },
+        "data": [],
         "errors": [
           {
             "status": "422",
@@ -233,6 +234,7 @@ Feature: Generating a JSON API collection
         "jsonapi": {
           "version": "1.1"
         },
+        "data": [],
         "errors": [
           {
             "status": "403",
@@ -277,6 +279,7 @@ Feature: Generating a JSON API collection
         "jsonapi": {
           "version": "1.1"
         },
+        "data": [],
         "errors": [
           {
             "status": "422",
@@ -311,7 +314,6 @@ Feature: Generating a JSON API collection
     And the media type should be "application/vnd.api+json"
 
 
-  @test
   Scenario: Generating a JSON API collection with meta information.
     Given there is the following articles:
       | id | title                       | body                                     | author_id | created                      | updated                  |
@@ -348,13 +350,13 @@ Feature: Generating a JSON API collection
         },
         "data": [
           {
-            "type": "articles",
+            "type": "article",
             "id": "1",
             "attributes": {
               "title": "Basketball for kids.",
               "body": "Learn basketball at early age.",
-              "created": "2015-05-22T14:56:29.000Z",
-              "updated": "2015-05-22T14:56:30.000Z"
+              "created": 1432263569,
+              "updated": 1432263570
             },
             "relationships": {
               "author": {
@@ -366,18 +368,18 @@ Feature: Generating a JSON API collection
             }
           },
           {
-            "type": "articles",
+            "type": "article",
             "id": "2",
             "attributes": {
               "title": "Swimming for Middle School.",
               "body": "Play and slay in middle school swimming.",
-              "created": "2019-01-22T02:59:29.000Z",
-              "updated": "2019-02-22T06:00:30.000Z"
+              "created": 1548125969,
+              "updated": 1550815230
             },
             "relationships": {
               "author": {
                 "data": {
-                  "id": "13",
+                  "id": "9",
                   "type": "people"
                 }
               }
@@ -391,7 +393,7 @@ Feature: Generating a JSON API collection
             "attributes": {
               "first_name": "Seiji",
               "last_name": "Reyes",
-              "age": 10,
+              "age": "10",
               "gender": "male"
             }
           },
@@ -401,7 +403,7 @@ Feature: Generating a JSON API collection
             "attributes": {
               "first_name": "Summer",
               "last_name": "Reyes",
-              "age": 13,
+              "age": "13",
               "gender": "female"
             }
           }
@@ -425,6 +427,7 @@ Feature: Generating a JSON API collection
       | name    | url            |
       | self    | /articles      |
       | related | /articles/tags |
+    And the base url is "http://example.com"
     When a JSON API response is asked to be generated
     Then the library will return:
       """
@@ -432,21 +435,19 @@ Feature: Generating a JSON API collection
         "jsonapi": {
           "version": "1.1"
         },
-        {
-          "links": {
-            "self": "http://example.com/articles"
-            "related": "http://example.com/tags"
-          }
+        "links": {
+          "self": "http:\/\/example.com\/articles",
+          "related": "http:\/\/example.com\/articles\/tags"
         },
         "data": [
           {
-            "type": "articles",
+            "type": "article",
             "id": "1",
             "attributes": {
               "title": "Basketball for kids.",
               "body": "Learn basketball at early age.",
-              "created": "2015-05-22T14:56:29.000Z",
-              "updated": "2015-05-22T14:56:30.000Z"
+              "created": 1432263569,
+              "updated": 1432263570
             },
             "relationships": {
               "author": {
@@ -458,18 +459,18 @@ Feature: Generating a JSON API collection
             }
           },
           {
-            "type": "articles",
+            "type": "article",
             "id": "2",
             "attributes": {
               "title": "Swimming for Middle School.",
               "body": "Play and slay in middle school swimming.",
-              "created": "2019-01-22T02:59:29.000Z",
-              "updated": "2019-02-22T06:00:30.000Z"
+              "created": 1548125969,
+              "updated": 1550815230
             },
             "relationships": {
               "author": {
                 "data": {
-                  "id": "13",
+                  "id": "9",
                   "type": "people"
                 }
               }
@@ -483,7 +484,7 @@ Feature: Generating a JSON API collection
             "attributes": {
               "first_name": "Seiji",
               "last_name": "Reyes",
-              "age": 10,
+              "age": "10",
               "gender": "male"
             }
           },
@@ -493,7 +494,7 @@ Feature: Generating a JSON API collection
             "attributes": {
               "first_name": "Summer",
               "last_name": "Reyes",
-              "age": 13,
+              "age": "13",
               "gender": "female"
             }
           }
@@ -513,9 +514,6 @@ Feature: Generating a JSON API collection
       {
         "jsonapi": {
           "version": "1.1"
-        },
-        "links": {
-          "self": "http://example.com/articles"
         },
         "data": []
       }

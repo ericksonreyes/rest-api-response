@@ -26,4 +26,21 @@ class Meta extends Collection implements MetaInterface
     {
         return $this->items();
     }
+
+    /**
+     * @return bool
+     */
+    public function isEmpty(): bool
+    {
+        return $this->isNotEmpty() === false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNotEmpty(): bool
+    {
+        return count($this->items()) > 0;
+    }
+
 }

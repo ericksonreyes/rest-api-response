@@ -5,6 +5,8 @@ namespace EricksonReyes\RestApiResponse\JsonApi;
 use EricksonReyes\RestApiResponse\Errors;
 use EricksonReyes\RestApiResponse\ErrorsInterface;
 use EricksonReyes\RestApiResponse\ErrorSourceInterface;
+use EricksonReyes\RestApiResponse\Meta;
+use EricksonReyes\RestApiResponse\MetaInterface;
 use EricksonReyes\RestApiResponse\Resources;
 use EricksonReyes\RestApiResponse\ResourcesInterface;
 
@@ -30,13 +32,19 @@ class JsonApiResponse implements JsonApiResponseInterface
     /**
      * @var \EricksonReyes\RestApiResponse\ErrorsInterface
      */
-    public ErrorsInterface $errors;
+    private ErrorsInterface $errors;
+
+    /**
+     * @var \EricksonReyes\RestApiResponse\MetaInterface
+     */
+    private MetaInterface $meta;
 
 
     public function __construct()
     {
         $this->errors = new Errors();
         $this->resources = new Resources();
+        $this->meta = new Meta();
     }
 
     /**
@@ -138,6 +146,22 @@ class JsonApiResponse implements JsonApiResponseInterface
         return $this->httpResponseDescription;
     }
 
+    /**
+     * @param \EricksonReyes\RestApiResponse\MetaInterface $meta
+     * @return void
+     */
+    public function withMeta(MetaInterface $meta): void
+    {
+        $this->meta = $meta;
+    }
+
+    /**
+     * @return \EricksonReyes\RestApiResponse\MetaInterface
+     */
+    public function meta(): MetaInterface
+    {
+        return $this->meta;
+    }
 
     /**
      * @param \EricksonReyes\RestApiResponse\ErrorsInterface $errors
@@ -184,10 +208,11 @@ class JsonApiResponse implements JsonApiResponseInterface
             ]
         ];
 
+        $response = $this->addMeta($response);
+        $response = $this->addLinks($response);
         $response = $this->addPaginationMetaData($response);
         $response = $this->addResources($response);
         $response = $this->addIncludedResources($response);
-        $response = $this->addLinks($response);
         $response = $this->addErrors($response);
         return $this->addPaginationLinks($response);
     }
@@ -214,6 +239,7 @@ class JsonApiResponse implements JsonApiResponseInterface
      */
     private function addResources(array $response): array
     {
+        $response['data'] = [];
         $resourceCount = count($this->resources);
         foreach ($this->resources as $index => $resource) {
             if ($resourceCount === 1) {
@@ -305,13 +331,15 @@ class JsonApiResponse implements JsonApiResponseInterface
     private function addLinks(array $response): array
     {
         if ($this->resources instanceof JsonApiResourcesInterface) {
+            $baseUrl = '';
             if (empty($this->resources->baseUrl()) === false) {
-                $response['links']['self'] = $this->resources->baseUrl();
+                $baseUrl = $this->resources->baseUrl();
+                $response['links']['self'] = $baseUrl;
             }
 
             if (empty($this->resources->links()) === false) {
                 foreach ($this->resources->links() as $link) {
-                    $response['links'][$link->name()] = $link->url();
+                    $response['links'][$link->name()] = $baseUrl . $link->url();
                 }
             }
         }
@@ -386,6 +414,21 @@ class JsonApiResponse implements JsonApiResponseInterface
                 $response['meta']['page']['last'] = (string)$this->resources->lastPage();
             }
         }
+        return $response;
+    }
+
+    /**
+     * @param array $response
+     * @return array
+     */
+    private function addMeta(array $response): array
+    {
+        if ($this->meta()->isNotEmpty()) {
+            foreach ($this->meta()->meta() as $key => $value) {
+                $response['meta'][$key] = $value;
+            }
+        }
+
         return $response;
     }
 

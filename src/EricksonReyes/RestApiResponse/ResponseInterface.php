@@ -6,7 +6,6 @@ use EricksonReyes\RestApiResponse\ErrorAwareResponseInterface as ErrorAware;
 use EricksonReyes\RestApiResponse\ResponseMediaTypeAwareInterface as MediaAware;
 use EricksonReyes\RestApiResponse\ResponseSpecificationInterface as SpecificationAware;
 use EricksonReyes\RestApiResponse\ResponseStatusAwareInterface as StatusAware;
-
 /**
  * Interface ResponseInterface
  * @package EricksonReyes\RestApiResponse

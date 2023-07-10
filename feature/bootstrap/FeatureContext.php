@@ -14,6 +14,7 @@ use EricksonReyes\RestApiResponse\JsonApi\JsonApiResources;
 use EricksonReyes\RestApiResponse\JsonApi\JsonApiResponse;
 use EricksonReyes\RestApiResponse\Link;
 use EricksonReyes\RestApiResponse\Links;
+use EricksonReyes\RestApiResponse\Meta;
 use EricksonReyes\RestApiResponse\Resource;
 
 /**
@@ -90,6 +91,7 @@ class FeatureContext implements Context
 
     /**
      * @return void
+     * @BeforeScenario
      */
     public function beforeScenario(): void
     {
@@ -119,8 +121,8 @@ class FeatureContext implements Context
                 'attributes' => [
                     'title' => $article['title'],
                     'body' => $article['body'],
-                    'created' => $created->format(DateTimeInterface::ATOM),
-                    'updated' => $updated->format(DateTimeInterface::ATOM)
+                    'created' => $created->getTimestamp(),
+                    'updated' => $updated->getTimestamp()
                 ],
                 'relationships' => [
                     [
@@ -273,27 +275,28 @@ class FeatureContext implements Context
         $this->jsonApiResponse = new JsonApiResponse();
 
         if (!empty($this->baseUrl)) {
-            $resources->setBaseUrl($this->baseUrl);
+            $baseUrl = $this->baseUrl;
+            $resources->setBaseUrl(baseUrl: $baseUrl);
         }
 
         if (!empty($this->articles)) {
             foreach ($this->articles as $article) {
-                $resource = new JsonApiResource(
-                    id: $article['id'],
-                    type: $article['type'],
-                    attributes: $article['attributes']
-                );
+                $id = $article['id'];
+                $type = $article['type'];
+                $attributes = $article['attributes'];
 
-                $relationships = new JsonApiRelationships('author');
-                foreach ($article['relationships'] as $relationship) {
-                    $relationships->addRelationship(
-                        new JsonApiRelationship(
-                            id: $relationship['id'],
-                            type: $relationship['type']
-                        )
-                    );
+                $resource = new JsonApiResource(id: $id, type: $type, attributes: $attributes);
+                if (isset($article['relationships'])) {
+                    $relationships = new JsonApiRelationships(relation: 'author');
+                    foreach ($article['relationships'] as $relationship) {
+                        $id = $relationship['id'];
+                        $type = $relationship['type'];
+                        $relationship = new JsonApiRelationship(id: $id, type: $type);
+
+                        $relationships->addRelationship($relationship);
+                    }
+                    $resource->withRelationships($relationships);
                 }
-                $resource->withRelationships($relationships);
 
                 $resources->addResource($resource);
             }
@@ -303,66 +306,101 @@ class FeatureContext implements Context
             ($this->pagination['records_per_page'] ?? 0) > 0 &&
             ($this->pagination['page_number'] ?? 0) > 0
         ) {
+            $totalNumberOfRecords = (int)$this->pagination['total_number_of_records'];
+            $recordsPerPage = (int)$this->pagination['records_per_page'];
+            $currentPageNumber = (int)$this->pagination['page_number'];
+
             $resources->withPagination(
-                numberOfRecords: $this->pagination['total_number_of_records'],
-                recordsPerPage: $this->pagination['records_per_page'],
-                currentPageNumber: $this->pagination['page_number']
+                numberOfRecords: $totalNumberOfRecords,
+                recordsPerPage: $recordsPerPage,
+                currentPageNumber: $currentPageNumber
             );
         }
 
         if (!empty($this->links)) {
             $links = new Links();
             foreach ($this->links as $link) {
-                $links->addLink(
-                    new Link(
-                        name: $link['name'],
-                        url: $link['url']
-                    )
-                );
+                $name = $link['name'];
+                $url = $link['url'];
+
+                $link = new Link(name: $name, url: $url);
+                $links->addLink($link);
             }
             $resources->withLinks($links);
         }
 
-
         if (!empty($this->authors)) {
             foreach ($this->authors as $author) {
-                $resources->addIncludedResource(
-                    new Resource(
-                        id: $author['id'],
-                        type: $author['type'],
-                        attributes: $author['attributes']
-                    )
-                );
+                $id = $author['id'];
+                $type = $author['type'];
+                $attributes = $author['attributes'];
+
+                $includedResource = new Resource(id: $id, type: $type, attributes: $attributes);
+                $resources->addIncludedResource($includedResource);
             }
         }
 
         if (!empty($this->exceptions)) {
             $errors = new Errors();
             foreach ($this->exceptions as $exception) {
-                $error = new Error(
-                    status: (int)$exception['status'],
-                    title: $exception['title'],
-                );
+                $status = (int)$exception['status'];
+                $title = $exception['title'];
+
+                $error = new Error(status: $status, title: $title);
 
                 if (isset($exception['source'])) {
-                    $errorSource = new ErrorSource(
-                        type: ErrorSourceType::Pointer,
-                        source: $exception['source']
-                    );
+                    $source = $exception['source'];
+                    $type = ErrorSourceType::Pointer;
+
+                    $errorSource = new ErrorSource(type: $type, source: $source);
                     $error->fromSource(source: $errorSource);
                 }
 
                 if (isset($exception['code'])) {
-                    $error->withCode(code: $exception['code']);
+                    $code = $exception['code'];
+                    $error->withCode(code: $code);
                 }
 
                 if (isset($exception['detail'])) {
-                    $error->withDetail(detail: $exception['detail']);
+                    $detail = $exception['detail'];
+                    $error->withDetail(detail: $detail);
                 }
 
                 $errors->addError($error);
             }
             $this->jsonApiResponse->withErrors($errors);
+        }
+
+        if (!empty($this->meta)) {
+            $meta = new Meta();
+            foreach ($this->meta as $metaArray) {
+                $title = $metaArray['title'];
+                $description = $metaArray['description'];
+                $meta->addMetaData($title, $description);
+            }
+            $this->jsonApiResponse->withMeta($meta);
+        }
+
+        if (!empty($this->metaCollection)) {
+            if (!isset($meta)) {
+                $meta = new Meta();
+            }
+
+            foreach ($this->metaCollection as $collectionName => $metaCollection) {
+                $meta->addMetaData($collectionName, $metaCollection);
+            }
+            $this->jsonApiResponse->withMeta($meta);
+        }
+
+
+        if (!empty($this->links)) {
+            $links = new Links();
+            foreach ($this->links as $linkArray) {
+                $name = $linkArray['name'];
+                $url = $linkArray['url'];
+                $link = new Link($name, $url);
+                $links->addLink($link);
+            }
         }
 
         $this->jsonApiResponse->withResources($resources);
