@@ -42,5 +42,4 @@ class Meta extends Collection implements MetaInterface
     {
         return count($this->items()) > 0;
     }
-
 }

@@ -32,8 +32,7 @@ class Error implements ErrorInterface
     public function __construct(
         private readonly int    $status,
         private readonly string $title
-    )
-    {
+    ) {
     }
 
     /**
@@ -103,6 +102,4 @@ class Error implements ErrorInterface
     {
         return $this->source;
     }
-
-
 }

@@ -19,6 +19,4 @@ interface ErrorSourceInterface
      * @return string
      */
     public function source(): string;
-
-
 }

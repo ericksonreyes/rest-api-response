@@ -32,6 +32,4 @@ class ErrorSource implements ErrorSourceInterface
     {
         return $this->source;
     }
-
-
 }

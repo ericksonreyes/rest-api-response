@@ -26,6 +26,4 @@ interface MetaInterface extends Iterator, Countable
      * @return bool
      */
     public function isNotEmpty(): bool;
-
-
 }

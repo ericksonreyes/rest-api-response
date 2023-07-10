@@ -2,7 +2,6 @@
 
 namespace EricksonReyes\RestApiResponse;
 
-
 /**
  * Interface MetaAwareResponseInterface
  * @package EricksonReyes\RestApiResponse

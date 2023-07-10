@@ -18,6 +18,8 @@ class JsonApiResponse implements JsonApiResponseInterface
 {
 
     public const API_VERSION = '1.1';
+    const HTTP_STATUS_600 = 600;
+    const HTTP_STATUS_100 = 100;
 
     /**
      * @var int
@@ -116,7 +118,7 @@ class JsonApiResponse implements JsonApiResponseInterface
      */
     public function setHttpStatusCode(int $httpStatusCode): void
     {
-        if ($httpStatusCode >= 100 && $httpStatusCode < 600) {
+        if ($httpStatusCode >= self::HTTP_STATUS_100 && $httpStatusCode < self::HTTP_STATUS_600) {
             $this->httpStatusCode = $httpStatusCode;
         }
     }

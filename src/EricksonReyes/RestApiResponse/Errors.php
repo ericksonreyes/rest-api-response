@@ -41,6 +41,4 @@ class Errors extends Collection implements ErrorsInterface
     {
         return count($this->items()) > 0;
     }
-
-
 }
