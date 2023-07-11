@@ -69,11 +69,6 @@ class FeatureContext implements Context
     private int $httpResponseStatusCode = 0;
 
     /**
-     * @var string
-     */
-    private string $mediaType = '';
-
-    /**
      * @var \EricksonReyes\RestApiResponse\JsonApi\JsonApiResponse|null
      */
     private ?JsonApiResponse $jsonApiResponse;
@@ -112,8 +107,8 @@ class FeatureContext implements Context
     public function thereIsTheFollowingArticles(TableNode $articles): void
     {
         foreach ($articles as $article) {
-            $created = (new DateTimeImmutable($article['created']));
-            $updated = (new DateTimeImmutable($article['updated']));
+            $created = (new \DateTimeImmutable($article['created']));
+            $updated = (new \DateTimeImmutable($article['updated']));
 
             $this->articles[$article['id']] = [
                 'id' => $article['id'],
@@ -123,14 +118,17 @@ class FeatureContext implements Context
                     'body' => $article['body'],
                     'created' => $created->getTimestamp(),
                     'updated' => $updated->getTimestamp()
-                ],
-                'relationships' => [
+                ]
+            ];
+
+            if (isset($article['author_id'])) {
+                $this->articles[$article['id']]['relationships'] = [
                     [
                         'id' => $article['author_id'],
                         'type' => 'people'
                     ]
-                ]
-            ];
+                ];
+            }
         }
     }
 

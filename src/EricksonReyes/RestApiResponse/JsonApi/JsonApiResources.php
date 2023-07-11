@@ -19,7 +19,7 @@ class JsonApiResources extends Resources implements JsonApiResourcesInterface
     /**
      * @param string $name
      */
-    public function __construct(private readonly string $name)
+    public function __construct(private readonly string $name = 'data')
     {
         parent::__construct();
     }

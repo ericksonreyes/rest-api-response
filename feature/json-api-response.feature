@@ -2,8 +2,47 @@ Feature: Generating a JSON API collection
   As a REST API Developer
   I want a REST API response generator library
 
-
   Scenario: Generating a JSON API collection.
+    Given there is the following articles:
+      | id | title                       | body                                     | created                      | updated                  |
+      | 1  | Basketball for kids.        | Learn basketball at early age.           | May 22, 2015 02:59:29 AM     | May 22, 2015 02:59:30 AM |
+      | 2  | Swimming for Middle School. | Play and slay in middle school swimming. | January 22, 2019 02:59:29 AM | 2019-02-22 06:00:30 AM   |
+    When a JSON API response is asked to be generated
+    Then the library will return:
+      """
+      {
+        "jsonapi": {
+          "version": "1.1"
+        },
+        "data": [
+          {
+            "type": "article",
+            "id": "1",
+            "attributes": {
+              "title": "Basketball for kids.",
+              "body": "Learn basketball at early age.",
+              "created": 1432263569,
+              "updated": 1432263570
+            }
+          },
+          {
+            "type": "article",
+            "id": "2",
+            "attributes": {
+              "title": "Swimming for Middle School.",
+              "body": "Play and slay in middle school swimming.",
+              "created": 1548125969,
+              "updated": 1550815230
+            }
+          }
+        ]
+      }
+      """
+    And the http response status code should be 200
+    And the media type should be "application/vnd.api+json"
+
+
+  Scenario: Generating a JSON API collection with relationships.
     Given there is the following articles:
       | id | title                       | body                                     | author_id | created                      | updated                  |
       | 1  | Basketball for kids.        | Learn basketball at early age.           | 8         | May 22, 2015 02:59:29 AM     | May 22, 2015 02:59:30 AM |
