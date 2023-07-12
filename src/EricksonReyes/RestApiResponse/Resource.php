@@ -15,7 +15,7 @@ class Resource implements ResourceInterface
     /**
      * @var \EricksonReyes\RestApiResponse\LinksInterface|null
      */
-    private ?LinksInterface $links;
+    private ?LinksInterface $links = null;
 
     /**
      * @var array
@@ -80,9 +80,9 @@ class Resource implements ResourceInterface
     }
 
     /**
-     * @return \EricksonReyes\RestApiResponse\LinksInterface
+     * @return \EricksonReyes\RestApiResponse\LinksInterface|null
      */
-    public function links(): LinksInterface
+    public function links(): ?LinksInterface
     {
         return $this->links;
     }

@@ -5,6 +5,8 @@ namespace spec\EricksonReyes\RestApiResponse;
 use EricksonReyes\RestApiResponse\Exception\MissingResourceAttributesException;
 use EricksonReyes\RestApiResponse\Exception\MissingResourceTypeException;
 use EricksonReyes\RestApiResponse\Exception\MissingUniqueIdentifierException;
+use EricksonReyes\RestApiResponse\Links;
+use EricksonReyes\RestApiResponse\LinksInterface;
 use EricksonReyes\RestApiResponse\Resource;
 use EricksonReyes\RestApiResponse\ResourceInterface;
 use spec\UnitTest;
@@ -121,5 +123,17 @@ class ResourceSpec extends UnitTest
                     []
                 ]
             );
+    }
+
+    /**
+     * @param \EricksonReyes\RestApiResponse\LinksInterface $links
+     * @return void
+     */
+    public function it_has_links(LinksInterface $links): void
+    {
+        $this->links()->shouldBeNull();
+        ;
+        $this->withLinks($links)->shouldBeNull();
+        $this->links()->shouldHaveType(LinksInterface::class);
     }
 }

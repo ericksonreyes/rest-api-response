@@ -9,8 +9,9 @@ enum ErrorSourceType
     case Parameter;
 
     case Pointer;
-
+    
     /**
+     * @codeCoverageIgnore
      * @return string
      */
     public function name(): string

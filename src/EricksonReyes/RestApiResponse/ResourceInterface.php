@@ -24,7 +24,7 @@ interface ResourceInterface
     public function attributes(): array;
 
     /**
-     * @return \EricksonReyes\RestApiResponse\LinksInterface
+     * @return \EricksonReyes\RestApiResponse\LinksInterface|null
      */
-    public function links(): LinksInterface;
+    public function links(): ?LinksInterface;
 }

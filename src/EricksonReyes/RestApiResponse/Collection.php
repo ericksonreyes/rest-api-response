@@ -39,7 +39,7 @@ abstract class Collection implements Iterator, Countable
      */
     public function current(): mixed
     {
-        return $this->items[$this->position];
+        return $this->items[$this->position] ?? null;
     }
 
     /**
