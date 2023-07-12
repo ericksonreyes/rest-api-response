@@ -12,23 +12,38 @@ class JsonApiResource extends Resource implements JsonApiResourceInterface
 {
 
     /**
-     * @var \EricksonReyes\RestApiResponse\JsonApi\JsonApiRelationshipsInterface|null
+     * @var \EricksonReyes\RestApiResponse\JsonApi\JsonApiResourceInterface[]
      */
-    private ?JsonApiRelationshipsInterface $relationships = null;
+    private array $relationships = [];
+
 
     /**
-     * @param \EricksonReyes\RestApiResponse\JsonApi\JsonApiRelationshipsInterface $relationships
-     * @return void
+     * @param string $id
+     * @param string $type
+     * @param array $attributes
      */
-    public function withRelationships(JsonApiRelationshipsInterface $relationships): void
-    {
-        $this->relationships = $relationships;
+    public function __construct(
+        private readonly string $id,
+        private readonly string $type,
+        array                   $attributes
+    ) {
+        parent::__construct($this->id, $this->type, $attributes);
     }
 
     /**
-     * @return \EricksonReyes\RestApiResponse\JsonApi\JsonApiRelationshipsInterface|null
+     * @param string $relation
+     * @param \EricksonReyes\RestApiResponse\JsonApi\JsonApiResourceInterface $resource
+     * @return void
      */
-    public function relationships(): ?JsonApiRelationshipsInterface
+    public function addRelationship(string $relation, JsonApiResourceInterface $resource): void
+    {
+        $this->relationships[$relation] = $resource;
+    }
+
+    /**
+     * @return \EricksonReyes\RestApiResponse\JsonApi\JsonApiResourceInterface[]
+     */
+    public function relationships(): array
     {
         return $this->relationships;
     }

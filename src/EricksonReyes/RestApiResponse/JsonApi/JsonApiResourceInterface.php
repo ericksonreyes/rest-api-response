@@ -12,7 +12,7 @@ interface JsonApiResourceInterface extends ResourceInterface
 {
 
     /**
-     * @return \EricksonReyes\RestApiResponse\JsonApi\JsonApiRelationshipsInterface|null
+     * @return \EricksonReyes\RestApiResponse\JsonApi\JsonApiResourceInterface[]
      */
-    public function relationships(): ?JsonApiRelationshipsInterface;
+    public function relationships(): array;
 }

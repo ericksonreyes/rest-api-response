@@ -285,15 +285,14 @@ class FeatureContext implements Context
 
                 $resource = new JsonApiResource(id: $id, type: $type, attributes: $attributes);
                 if (isset($article['relationships'])) {
-                    $relationships = new JsonApiRelationships(relation: 'author');
                     foreach ($article['relationships'] as $relationship) {
                         $id = $relationship['id'];
-                        $type = $relationship['type'];
-                        $relationship = new JsonApiRelationship(id: $id, type: $type);
+                        $type = $this->authors[$id]['type'];
+                        $attributes = $this->authors[$id]['attributes'];
 
-                        $relationships->addRelationship($relationship);
+                        $author = new JsonApiResource($id, $type, $attributes);
+                        $resource->addRelationship(relation: 'author', resource: $author);
                     }
-                    $resource->withRelationships($relationships);
                 }
 
                 $resources->addResource($resource);
@@ -325,17 +324,6 @@ class FeatureContext implements Context
                 $links->addLink($link);
             }
             $resources->withLinks($links);
-        }
-
-        if (!empty($this->authors)) {
-            foreach ($this->authors as $author) {
-                $id = $author['id'];
-                $type = $author['type'];
-                $attributes = $author['attributes'];
-
-                $includedResource = new Resource(id: $id, type: $type, attributes: $attributes);
-                $resources->addIncludedResource($includedResource);
-            }
         }
 
         if (!empty($this->exceptions)) {

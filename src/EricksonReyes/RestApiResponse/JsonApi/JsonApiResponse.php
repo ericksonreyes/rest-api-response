@@ -49,20 +49,20 @@ class JsonApiResponse implements JsonApiResponseInterface
     public function __construct()
     {
         $this->errors = new Errors();
-        $this->resources = new Resources();
+        $this->resources = new JsonApiResources();
         $this->meta = new Meta();
     }
 
     /**
-     * @var \EricksonReyes\RestApiResponse\ResourcesInterface|null
+     * @var \EricksonReyes\RestApiResponse\JsonApi\JsonApiResourcesInterface
      */
-    private ?ResourcesInterface $resources;
+    private JsonApiResourcesInterface $resources;
 
     /**
-     * @param \EricksonReyes\RestApiResponse\ResourcesInterface $resources
+     * @param \EricksonReyes\RestApiResponse\JsonApi\JsonApiResourcesInterface $resources
      * @return void
      */
-    public function withResources(ResourcesInterface $resources): void
+    public function withResources(JsonApiResourcesInterface $resources): void
     {
         $this->resources = $resources;
     }
@@ -224,7 +224,6 @@ class JsonApiResponse implements JsonApiResponseInterface
         $response = $this->addLinks($response);
         $response = $this->addPaginationMetaData($response);
         $response = $this->addResources($response);
-        $response = $this->addIncludedResources($response);
         $response = $this->addErrors($response);
         return $this->addPaginationLinks($response);
     }
@@ -252,17 +251,7 @@ class JsonApiResponse implements JsonApiResponseInterface
     private function addResources(array $response): array
     {
         $response['data'] = [];
-        $resourceCount = count($this->resources);
         foreach ($this->resources as $index => $resource) {
-            if ($resourceCount === 1) {
-                $response['data'] = [
-                    'type' => $resource->type(),
-                    'id' => $resource->id(),
-                    'attributes' => $resource->attributes()
-                ];
-                return $this->addRelationships($resource, $response, $index);
-            }
-
             $response['data'][$index] = [
                 'type' => $resource->type(),
                 'id' => $resource->id(),
@@ -275,61 +264,27 @@ class JsonApiResponse implements JsonApiResponseInterface
     }
 
     /**
-     * @param array $response
-     * @return array
-     */
-    private function addIncludedResources(array $response): array
-    {
-        if ($this->resources instanceof JsonApiResourcesInterface) {
-            $includedCount = count($this->resources->included());
-            foreach ($this->resources->included() as $includedResource) {
-                if ($includedCount === 1) {
-                    $response['included'] = [
-                        'type' => $includedResource->type(),
-                        'id' => $includedResource->id(),
-                        'attributes' => $includedResource->attributes(),
-                    ];
-                    return $response;
-                }
-
-                $response['included'][] = [
-                    'type' => $includedResource->type(),
-                    'id' => $includedResource->id(),
-                    'attributes' => $includedResource->attributes(),
-                ];
-            }
-        }
-
-        return $response;
-    }
-
-    /**
      * @param \EricksonReyes\RestApiResponse\JsonApi\JsonApiResourceInterface $resource
      * @param array $response
-     * @param int $index
+     * @param int $resourceIndex
      * @return array
      */
-    private function addRelationships(JsonApiResourceInterface $resource, array $response, int $index): array
+    private function addRelationships(JsonApiResourceInterface $resource, array $response, int $resourceIndex): array
     {
-        if ($resource->relationships() instanceof JsonApiRelationships) {
-            $relationshipCount = count($resource->relationships());
-            foreach ($resource->relationships() as $relationship) {
-                /**
-                 * @var \EricksonReyes\RestApiResponse\JsonApi\JsonApiRelationshipInterface $relationship
-                 */
-                $relationshipName = $resource->relationships()->name();
+        $hasRelationships = count($resource->relationships()) > 0;
 
-                if ($relationshipCount === 1) {
-                    $response['data'][$index]['relationships'][$relationshipName]['data'] = [
-                        'id' => $relationship->id(),
-                        'type' => $relationship->type()
-                    ];
-                    return $response;
-                }
+        if ($hasRelationships) {
+            $resources = $resource->relationships();
+            foreach ($resources as $name => $resource) {
+                $response['data'][$resourceIndex]['relationships'][$name]['data'] = [
+                    'id' => $resource->id(),
+                    'type' => $resource->type()
+                ];
 
-                $response['data'][$index]['relationships'][$relationshipName]['data'][] = [
-                    'id' => $relationship->id(),
-                    'type' => $relationship->type()
+                $response['included'][] = [
+                    'type' => $resource->type(),
+                    'id' => $resource->id(),
+                    'attributes' => $resource->attributes(),
                 ];
             }
         }

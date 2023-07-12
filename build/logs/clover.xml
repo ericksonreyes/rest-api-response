@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1689164352">
-  <project timestamp="1689164352">
+<coverage generated="1689185465">
+  <project timestamp="1689185465">
     <file name="/var/www/html/src/EricksonReyes/RestApiResponse/Collection.php">
       <class name="EricksonReyes\RestApiResponse\Collection" namespace="global">
         <metrics complexity="8" methods="8" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="0" elements="17" coveredelements="0"/>
@@ -131,75 +131,37 @@
     <file name="/var/www/html/src/EricksonReyes/RestApiResponse/HttpResponseStatusCodeAwareInterface.php">
       <metrics loc="16" ncloc="9" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
-    <file name="/var/www/html/src/EricksonReyes/RestApiResponse/JsonApi/JsonApiRelationship.php">
-      <class name="EricksonReyes\RestApiResponse\JsonApi\JsonApiRelationship" namespace="global">
-        <metrics complexity="3" methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="0" elements="6" coveredelements="0"/>
-      </class>
-      <line num="16" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="18" type="stmt" count="0"/>
-      <line num="23" type="method" name="id" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="25" type="stmt" count="0"/>
-      <line num="31" type="method" name="type" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="33" type="stmt" count="0"/>
-      <metrics loc="36" ncloc="22" classes="1" methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="0" elements="6" coveredelements="0"/>
-    </file>
-    <file name="/var/www/html/src/EricksonReyes/RestApiResponse/JsonApi/JsonApiRelationshipInterface.php">
-      <metrics loc="22" ncloc="12" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
-    </file>
-    <file name="/var/www/html/src/EricksonReyes/RestApiResponse/JsonApi/JsonApiRelationships.php">
-      <class name="EricksonReyes\RestApiResponse\JsonApi\JsonApiRelationships" namespace="global">
-        <metrics complexity="6" methods="6" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="0" elements="12" coveredelements="0"/>
-      </class>
-      <line num="23" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="25" type="stmt" count="0"/>
-      <line num="30" type="method" name="name" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="32" type="stmt" count="0"/>
-      <line num="39" type="method" name="addRelationship" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="41" type="stmt" count="0"/>
-      <line num="47" type="method" name="relationships" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="49" type="stmt" count="0"/>
-      <line num="56" type="method" name="withLinks" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="58" type="stmt" count="0"/>
-      <line num="64" type="method" name="links" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="66" type="stmt" count="0"/>
-      <metrics loc="69" ncloc="42" classes="1" methods="6" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="0" elements="12" coveredelements="0"/>
-    </file>
-    <file name="/var/www/html/src/EricksonReyes/RestApiResponse/JsonApi/JsonApiRelationshipsInterface.php">
-      <metrics loc="29" ncloc="16" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
-    </file>
     <file name="/var/www/html/src/EricksonReyes/RestApiResponse/JsonApi/JsonApiResource.php">
       <class name="EricksonReyes\RestApiResponse\JsonApi\JsonApiResource" namespace="global">
-        <metrics complexity="2" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="0" elements="4" coveredelements="0"/>
+        <metrics complexity="3" methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="0" elements="6" coveredelements="0"/>
       </class>
-      <line num="23" type="method" name="withRelationships" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="25" type="stmt" count="0"/>
-      <line num="31" type="method" name="relationships" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="33" type="stmt" count="0"/>
-      <metrics loc="36" ncloc="22" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="0" elements="4" coveredelements="0"/>
+      <line num="25" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="30" type="stmt" count="0"/>
+      <line num="38" type="method" name="addRelationship" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="40" type="stmt" count="0"/>
+      <line num="46" type="method" name="relationships" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="48" type="stmt" count="0"/>
+      <metrics loc="51" ncloc="31" classes="1" methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="0" elements="6" coveredelements="0"/>
     </file>
     <file name="/var/www/html/src/EricksonReyes/RestApiResponse/JsonApi/JsonApiResourceInterface.php">
       <metrics loc="19" ncloc="12" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
     <file name="/var/www/html/src/EricksonReyes/RestApiResponse/JsonApi/JsonApiResources.php">
       <class name="EricksonReyes\RestApiResponse\JsonApi\JsonApiResources" namespace="global">
-        <metrics complexity="4" methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="0" elements="8" coveredelements="0"/>
+        <metrics complexity="2" methods="2" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="1" elements="4" coveredelements="2"/>
       </class>
-      <line num="22" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="24" type="stmt" count="0"/>
-      <line num="30" type="method" name="name" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="32" type="stmt" count="0"/>
-      <line num="39" type="method" name="addIncludedResource" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="41" type="stmt" count="0"/>
-      <line num="47" type="method" name="included" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="49" type="stmt" count="0"/>
-      <metrics loc="52" ncloc="32" classes="1" methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="0" elements="8" coveredelements="0"/>
+      <line num="17" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="19" type="stmt" count="1"/>
+      <line num="25" type="method" name="name" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="27" type="stmt" count="0"/>
+      <metrics loc="30" ncloc="20" classes="1" methods="2" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="1" elements="4" coveredelements="2"/>
     </file>
     <file name="/var/www/html/src/EricksonReyes/RestApiResponse/JsonApi/JsonApiResourcesInterface.php">
-      <metrics loc="24" ncloc="14" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      <metrics loc="19" ncloc="12" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
     <file name="/var/www/html/src/EricksonReyes/RestApiResponse/JsonApi/JsonApiResponse.php">
       <class name="EricksonReyes\RestApiResponse\JsonApi\JsonApiResponse" namespace="global">
-        <metrics complexity="70" methods="30" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="148" coveredstatements="3" elements="178" coveredelements="4"/>
+        <metrics complexity="64" methods="29" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="122" coveredstatements="3" elements="151" coveredelements="4"/>
       </class>
       <line num="49" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="1"/>
       <line num="51" type="stmt" count="1"/>
@@ -255,12 +217,12 @@
       <line num="226" type="stmt" count="0"/>
       <line num="227" type="stmt" count="0"/>
       <line num="228" type="stmt" count="0"/>
-      <line num="229" type="stmt" count="0"/>
-      <line num="235" type="method" name="__toString" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="237" type="stmt" count="0"/>
-      <line num="243" type="method" name="jsonSerialize" visibility="public" complexity="1" crap="2" count="0"/>
-      <line num="245" type="stmt" count="0"/>
-      <line num="252" type="method" name="addResources" visibility="private" complexity="3" crap="12" count="0"/>
+      <line num="234" type="method" name="__toString" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="236" type="stmt" count="0"/>
+      <line num="242" type="method" name="jsonSerialize" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="244" type="stmt" count="0"/>
+      <line num="251" type="method" name="addResources" visibility="private" complexity="2" crap="6" count="0"/>
+      <line num="253" type="stmt" count="0"/>
       <line num="254" type="stmt" count="0"/>
       <line num="255" type="stmt" count="0"/>
       <line num="256" type="stmt" count="0"/>
@@ -268,118 +230,91 @@
       <line num="258" type="stmt" count="0"/>
       <line num="259" type="stmt" count="0"/>
       <line num="260" type="stmt" count="0"/>
-      <line num="261" type="stmt" count="0"/>
-      <line num="262" type="stmt" count="0"/>
       <line num="263" type="stmt" count="0"/>
-      <line num="266" type="stmt" count="0"/>
-      <line num="267" type="stmt" count="0"/>
-      <line num="268" type="stmt" count="0"/>
-      <line num="269" type="stmt" count="0"/>
-      <line num="270" type="stmt" count="0"/>
-      <line num="271" type="stmt" count="0"/>
+      <line num="272" type="method" name="addRelationships" visibility="private" complexity="3" crap="12" count="0"/>
       <line num="274" type="stmt" count="0"/>
-      <line num="281" type="method" name="addIncludedResources" visibility="private" complexity="4" crap="20" count="0"/>
-      <line num="283" type="stmt" count="0"/>
+      <line num="276" type="stmt" count="0"/>
+      <line num="277" type="stmt" count="0"/>
+      <line num="278" type="stmt" count="0"/>
+      <line num="279" type="stmt" count="0"/>
+      <line num="280" type="stmt" count="0"/>
+      <line num="281" type="stmt" count="0"/>
+      <line num="282" type="stmt" count="0"/>
       <line num="284" type="stmt" count="0"/>
       <line num="285" type="stmt" count="0"/>
       <line num="286" type="stmt" count="0"/>
       <line num="287" type="stmt" count="0"/>
       <line num="288" type="stmt" count="0"/>
-      <line num="289" type="stmt" count="0"/>
-      <line num="290" type="stmt" count="0"/>
       <line num="291" type="stmt" count="0"/>
-      <line num="292" type="stmt" count="0"/>
-      <line num="295" type="stmt" count="0"/>
-      <line num="296" type="stmt" count="0"/>
-      <line num="297" type="stmt" count="0"/>
-      <line num="298" type="stmt" count="0"/>
-      <line num="299" type="stmt" count="0"/>
+      <line num="298" type="method" name="addLinks" visibility="private" complexity="5" crap="30" count="0"/>
+      <line num="300" type="stmt" count="0"/>
+      <line num="301" type="stmt" count="0"/>
+      <line num="302" type="stmt" count="0"/>
       <line num="303" type="stmt" count="0"/>
-      <line num="312" type="method" name="addRelationships" visibility="private" complexity="4" crap="20" count="0"/>
-      <line num="314" type="stmt" count="0"/>
-      <line num="315" type="stmt" count="0"/>
-      <line num="316" type="stmt" count="0"/>
-      <line num="320" type="stmt" count="0"/>
+      <line num="304" type="stmt" count="0"/>
+      <line num="307" type="stmt" count="0"/>
+      <line num="308" type="stmt" count="0"/>
+      <line num="309" type="stmt" count="0"/>
+      <line num="313" type="stmt" count="0"/>
+      <line num="320" type="method" name="addErrors" visibility="private" complexity="7" crap="56" count="0"/>
       <line num="322" type="stmt" count="0"/>
-      <line num="323" type="stmt" count="0"/>
-      <line num="324" type="stmt" count="0"/>
-      <line num="325" type="stmt" count="0"/>
       <line num="326" type="stmt" count="0"/>
       <line num="327" type="stmt" count="0"/>
+      <line num="328" type="stmt" count="0"/>
       <line num="330" type="stmt" count="0"/>
       <line num="331" type="stmt" count="0"/>
       <line num="332" type="stmt" count="0"/>
       <line num="333" type="stmt" count="0"/>
       <line num="336" type="stmt" count="0"/>
-      <line num="343" type="method" name="addLinks" visibility="private" complexity="5" crap="30" count="0"/>
-      <line num="345" type="stmt" count="0"/>
+      <line num="337" type="stmt" count="0"/>
+      <line num="339" type="stmt" count="0"/>
+      <line num="340" type="stmt" count="0"/>
+      <line num="342" type="stmt" count="0"/>
+      <line num="343" type="stmt" count="0"/>
       <line num="346" type="stmt" count="0"/>
-      <line num="347" type="stmt" count="0"/>
-      <line num="348" type="stmt" count="0"/>
-      <line num="349" type="stmt" count="0"/>
-      <line num="352" type="stmt" count="0"/>
-      <line num="353" type="stmt" count="0"/>
-      <line num="354" type="stmt" count="0"/>
-      <line num="358" type="stmt" count="0"/>
-      <line num="365" type="method" name="addErrors" visibility="private" complexity="7" crap="56" count="0"/>
-      <line num="367" type="stmt" count="0"/>
+      <line num="350" type="stmt" count="0"/>
+      <line num="357" type="method" name="addPaginationMetaData" visibility="private" complexity="10" crap="110" count="0"/>
+      <line num="359" type="stmt" count="0"/>
+      <line num="360" type="stmt" count="0"/>
+      <line num="362" type="stmt" count="0"/>
+      <line num="363" type="stmt" count="0"/>
+      <line num="365" type="stmt" count="0"/>
+      <line num="366" type="stmt" count="0"/>
+      <line num="368" type="stmt" count="0"/>
+      <line num="369" type="stmt" count="0"/>
       <line num="371" type="stmt" count="0"/>
       <line num="372" type="stmt" count="0"/>
-      <line num="373" type="stmt" count="0"/>
+      <line num="374" type="stmt" count="0"/>
       <line num="375" type="stmt" count="0"/>
-      <line num="376" type="stmt" count="0"/>
       <line num="377" type="stmt" count="0"/>
       <line num="378" type="stmt" count="0"/>
+      <line num="380" type="stmt" count="0"/>
       <line num="381" type="stmt" count="0"/>
-      <line num="382" type="stmt" count="0"/>
       <line num="384" type="stmt" count="0"/>
-      <line num="385" type="stmt" count="0"/>
-      <line num="387" type="stmt" count="0"/>
-      <line num="388" type="stmt" count="0"/>
-      <line num="391" type="stmt" count="0"/>
+      <line num="391" type="method" name="addMeta" visibility="private" complexity="3" crap="12" count="0"/>
+      <line num="393" type="stmt" count="0"/>
+      <line num="394" type="stmt" count="0"/>
       <line num="395" type="stmt" count="0"/>
-      <line num="402" type="method" name="addPaginationMetaData" visibility="private" complexity="10" crap="110" count="0"/>
-      <line num="404" type="stmt" count="0"/>
-      <line num="405" type="stmt" count="0"/>
-      <line num="407" type="stmt" count="0"/>
+      <line num="399" type="stmt" count="0"/>
+      <line num="406" type="method" name="addPaginationLinks" visibility="private" complexity="7" crap="56" count="0"/>
       <line num="408" type="stmt" count="0"/>
+      <line num="409" type="stmt" count="0"/>
       <line num="410" type="stmt" count="0"/>
-      <line num="411" type="stmt" count="0"/>
+      <line num="412" type="stmt" count="0"/>
       <line num="413" type="stmt" count="0"/>
-      <line num="414" type="stmt" count="0"/>
+      <line num="415" type="stmt" count="0"/>
       <line num="416" type="stmt" count="0"/>
-      <line num="417" type="stmt" count="0"/>
+      <line num="418" type="stmt" count="0"/>
       <line num="419" type="stmt" count="0"/>
-      <line num="420" type="stmt" count="0"/>
       <line num="422" type="stmt" count="0"/>
-      <line num="423" type="stmt" count="0"/>
-      <line num="425" type="stmt" count="0"/>
-      <line num="426" type="stmt" count="0"/>
-      <line num="429" type="stmt" count="0"/>
-      <line num="436" type="method" name="addMeta" visibility="private" complexity="3" crap="12" count="0"/>
+      <line num="429" type="method" name="formatPaginationUrl" visibility="private" complexity="1" crap="2" count="0"/>
+      <line num="431" type="stmt" count="0"/>
+      <line num="433" type="stmt" count="0"/>
+      <line num="435" type="stmt" count="0"/>
+      <line num="436" type="stmt" count="0"/>
       <line num="438" type="stmt" count="0"/>
       <line num="439" type="stmt" count="0"/>
-      <line num="440" type="stmt" count="0"/>
-      <line num="444" type="stmt" count="0"/>
-      <line num="451" type="method" name="addPaginationLinks" visibility="private" complexity="7" crap="56" count="0"/>
-      <line num="453" type="stmt" count="0"/>
-      <line num="454" type="stmt" count="0"/>
-      <line num="455" type="stmt" count="0"/>
-      <line num="457" type="stmt" count="0"/>
-      <line num="458" type="stmt" count="0"/>
-      <line num="460" type="stmt" count="0"/>
-      <line num="461" type="stmt" count="0"/>
-      <line num="463" type="stmt" count="0"/>
-      <line num="464" type="stmt" count="0"/>
-      <line num="467" type="stmt" count="0"/>
-      <line num="474" type="method" name="formatPaginationUrl" visibility="private" complexity="1" crap="2" count="0"/>
-      <line num="476" type="stmt" count="0"/>
-      <line num="478" type="stmt" count="0"/>
-      <line num="480" type="stmt" count="0"/>
-      <line num="481" type="stmt" count="0"/>
-      <line num="483" type="stmt" count="0"/>
-      <line num="484" type="stmt" count="0"/>
-      <metrics loc="487" ncloc="359" classes="1" methods="30" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="148" coveredstatements="3" elements="178" coveredelements="4"/>
+      <metrics loc="442" ncloc="321" classes="1" methods="29" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="122" coveredstatements="3" elements="151" coveredelements="4"/>
     </file>
     <file name="/var/www/html/src/EricksonReyes/RestApiResponse/JsonApi/JsonApiResponseInterface.php">
       <metrics loc="16" ncloc="12" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
@@ -556,6 +491,6 @@
     <file name="/var/www/html/src/EricksonReyes/RestApiResponse/ResponseStatusAwareInterface.php">
       <metrics loc="22" ncloc="12" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
-    <metrics files="42" loc="2133" ncloc="1352" classes="15" methods="107" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="262" coveredstatements="30" elements="369" coveredelements="39"/>
+    <metrics files="38" loc="1920" ncloc="1217" classes="13" methods="96" coveredmethods="10" conditionals="0" coveredconditionals="0" statements="226" coveredstatements="31" elements="322" coveredelements="41"/>
   </project>
 </coverage>

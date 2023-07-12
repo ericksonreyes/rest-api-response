@@ -15,9 +15,4 @@ interface JsonApiResourcesInterface extends ResourcesInterface
      * @return string
      */
     public function name(): string;
-
-    /**
-     * @return \EricksonReyes\RestApiResponse\ResourceInterface[]
-     */
-    public function included(): array;
 }

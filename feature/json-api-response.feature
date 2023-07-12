@@ -2,6 +2,7 @@ Feature: Generating a JSON API collection
   As a REST API Developer
   I want a REST API response generator library
 
+
   Scenario: Generating a JSON API collection.
     Given there is the following articles:
       | id | title                       | body                                     | created                      | updated                  |

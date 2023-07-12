@@ -26,17 +26,17 @@ class Articles extends BaseController {
     
     $resources = new JsonApiResources();
     foreach ($articles as $article) {
-      $resource = new JsonApiResource(
-        id: $article->id,
-        type: 'article',
-        attributes: [
-          'title' => $article->title,
-          'body' => $article->body,
-          'created' => $article->created->getTimestamp()
-          'updated' => $article->birthday->getTimestamp()
-        ]
-      ); 
-      $resources->addResource($resource);
+        $resource = new JsonApiResource(
+            id: $article->id,
+            type: 'article',
+            attributes: [
+                'title' => $article->title,
+                'body' => $article->body,
+                'created' => $article->created->getTimestamp()
+                'updated' => $article->birthday->getTimestamp()
+            ]
+        ); 
+        $resources->addResource($resource);
     }
     $response->withResources($resources);
     
