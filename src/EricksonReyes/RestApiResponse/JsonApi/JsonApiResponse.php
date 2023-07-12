@@ -18,13 +18,17 @@ class JsonApiResponse implements JsonApiResponseInterface
 {
 
     public const API_VERSION = '1.1';
-    const HTTP_STATUS_600 = 600;
-    const HTTP_STATUS_100 = 100;
+
+    private const HTTP_STATUS_600 = 600;
+
+    private const HTTP_STATUS_100 = 100;
+
+    private const HTTP_STATUS_OK = 200;
 
     /**
      * @var int
      */
-    private int $httpStatusCode = 200;
+    private int $httpStatusCode = self::HTTP_STATUS_OK;
 
     /**
      * @var string
@@ -137,6 +141,12 @@ class JsonApiResponse implements JsonApiResponseInterface
      */
     public function httpStatusCode(): int
     {
+        if ($this->errors->isNotEmpty() && $this->httpStatusCode === self::HTTP_STATUS_OK) {
+            foreach ($this->errors->errors() as $error) {
+                $this->httpStatusCode = $error->httpStatusCode();
+            }
+        }
+
         return $this->httpStatusCode;
     }
 
@@ -360,7 +370,7 @@ class JsonApiResponse implements JsonApiResponseInterface
              */
             foreach ($this->errors() as $errorIndex => $error) {
                 $errorArray = [];
-                $errorArray['status'] = (string)$error->status();
+                $errorArray['status'] = (string)$error->httpStatusCode();
 
                 if ($error->source() instanceof ErrorSourceInterface) {
                     $type = $error->source()->type()->name();

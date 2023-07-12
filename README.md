@@ -14,9 +14,9 @@ composer require ericksonreyes/rest-api-response
 ### Supported formats
 * JSON API
 
-### Examples
-* [Collection of resources in JSON API format](docs/examples/RESOURCES.md) 
-
+### JSON API Examples
+* [Resources](docs/examples/jsonapi/RESOURCES.md) 
+* [Resources with relationships](docs/examples/jsonapi/RELATIONSHIPS.md)
 
 ### Author
 

@@ -13,7 +13,7 @@ interface ErrorsInterface extends Iterator, Countable
 {
 
     /**
-     * @return \EricksonReyes\RestApiResponse\ErrorsInterface[]
+     * @return \EricksonReyes\RestApiResponse\ErrorInterface[]
      */
     public function errors(): array;
 

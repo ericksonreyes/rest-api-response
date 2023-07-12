@@ -234,7 +234,6 @@ Feature: Generating a JSON API collection
     Given there is an exception raised with the following information:
       | status | source                         | code                         | title                     |
       | 422    | /data/attributes/customer_name | MissingCustomerNameException | Customer name is missing. |
-    And the http response status code is 422
     When a JSON API response is asked to be generated
     Then the library will return:
       """
@@ -308,7 +307,7 @@ Feature: Generating a JSON API collection
     Given there is an exception raised with the following information:
       | status | code | source                     | title                                                               | detail                                                    |
       | 422    | 123  | /data/attributes/firstName | Value is too short                                                  | First name must contain at least two characters.          |
-      | 422    | 225  | /data/attributes/password  | Passwords must contain a letter, number, and punctuation character. | The password provided is missing a punctuation character. |
+      | 403    | 225  | /data/attributes/password  | Passwords must contain a letter, number, and punctuation character. | The password provided is missing a punctuation character. |
       | 422    | 226  | /data/attributes/password  | Password and password confirmation do not match.                    |                                                           |
     And the http response status code is 422
     When a JSON API response is asked to be generated
@@ -330,7 +329,7 @@ Feature: Generating a JSON API collection
             "detail": "First name must contain at least two characters."
           },
           {
-            "status": "422",
+            "status": "403",
             "source": {
               "pointer": "\/data\/attributes\/password"
             },

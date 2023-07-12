@@ -344,7 +344,7 @@ class FeatureContext implements Context
                 $status = (int)$exception['status'];
                 $title = $exception['title'];
 
-                $error = new Error(status: $status, title: $title);
+                $error = new Error(httpStatusCode: $status, title: $title);
 
                 if (isset($exception['source'])) {
                     $source = $exception['source'];

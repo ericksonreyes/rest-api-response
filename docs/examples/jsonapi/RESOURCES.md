@@ -1,5 +1,4 @@
-### An example of a collection of resources in JSON API format
-
+# An example of a collection of resources in JSON API format
 
 ```php
 namespace App\Http\Controllers;
@@ -11,6 +10,10 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\Article;
 
+/**
+* Class Articles
+ * @package App\Http\Controllers
+ */
 class Articles extends BaseController {
 
   /**
@@ -19,9 +22,9 @@ class Articles extends BaseController {
   public function index(): Response {
     
     $response = new JsonApiResponse();
-    $resources = new JsonApiResources();
     $articles = Article::all();
     
+    $resources = new JsonApiResources();
     foreach ($articles as $article) {
       $resource = new JsonApiResource(
         id: $article->id,
@@ -35,15 +38,28 @@ class Articles extends BaseController {
       ); 
       $resources->addResource($resource);
     }
-    
     $response->withResources($resources);
-    $data = $response->array();
     
-    return response()->view('json', $data);
+    return response()->json(
+        data: $response->array()
+    );
   }
 }
 ```
-Output
+
+Empty collection output.
+
+```json
+{
+  "jsonapi": {
+    "version": "1.1"
+  },
+  "data": []
+}
+```
+
+Collection output
+
 ```json
 {
   "jsonapi": {
@@ -74,4 +90,4 @@ Output
 }
 ```
 
-[Back to README home](../../README.md)
+[README home](../../../README.md)

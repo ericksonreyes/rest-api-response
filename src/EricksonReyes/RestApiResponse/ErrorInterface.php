@@ -12,7 +12,7 @@ interface ErrorInterface
     /**
      * @return int
      */
-    public function status(): int;
+    public function httpStatusCode(): int;
 
     /**
      * @return string

@@ -26,11 +26,11 @@ class Error implements ErrorInterface
 
 
     /**
-     * @param int $status
+     * @param int $httpStatusCode
      * @param string $title
      */
     public function __construct(
-        private readonly int    $status,
+        private readonly int    $httpStatusCode,
         private readonly string $title
     ) {
     }
@@ -38,9 +38,9 @@ class Error implements ErrorInterface
     /**
      * @return int
      */
-    public function status(): int
+    public function httpStatusCode(): int
     {
-        return $this->status;
+        return $this->httpStatusCode;
     }
 
 
