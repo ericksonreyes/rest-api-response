@@ -9,7 +9,7 @@ enum ErrorSourceType
     case Parameter;
 
     case Pointer;
-    
+
     /**
      * @codeCoverageIgnore
      * @return string
