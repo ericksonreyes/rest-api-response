@@ -7,7 +7,6 @@ use EricksonReyes\RestApiResponse\ErrorsInterface;
 use EricksonReyes\RestApiResponse\ErrorSourceInterface;
 use EricksonReyes\RestApiResponse\Meta;
 use EricksonReyes\RestApiResponse\MetaInterface;
-use EricksonReyes\RestApiResponse\Resources;
 use EricksonReyes\RestApiResponse\ResourcesInterface;
 
 /**
@@ -16,6 +15,8 @@ use EricksonReyes\RestApiResponse\ResourcesInterface;
  */
 class JsonApiResponse implements JsonApiResponseInterface
 {
+
+    public const API_SPECIFICATION_NAME = 'jsonapi';
 
     public const API_VERSION = '1.1';
 
@@ -45,6 +46,11 @@ class JsonApiResponse implements JsonApiResponseInterface
      */
     private MetaInterface $meta;
 
+    /**
+     * @var \EricksonReyes\RestApiResponse\JsonApi\JsonApiResourcesInterface
+     */
+    private JsonApiResourcesInterface $resources;
+
 
     public function __construct()
     {
@@ -52,11 +58,6 @@ class JsonApiResponse implements JsonApiResponseInterface
         $this->resources = new JsonApiResources();
         $this->meta = new Meta();
     }
-
-    /**
-     * @var \EricksonReyes\RestApiResponse\JsonApi\JsonApiResourcesInterface
-     */
-    private JsonApiResourcesInterface $resources;
 
     /**
      * @param \EricksonReyes\RestApiResponse\JsonApi\JsonApiResourcesInterface $resources
@@ -105,7 +106,7 @@ class JsonApiResponse implements JsonApiResponseInterface
      */
     public function specificationName(): string
     {
-        return 'jsonapi';
+        return self::API_SPECIFICATION_NAME;
     }
 
     /**
@@ -215,8 +216,8 @@ class JsonApiResponse implements JsonApiResponseInterface
     public function array(): array
     {
         $response = [
-            'jsonapi' => [
-                'version' => '1.1'
+            $this->specificationName() => [
+                'version' => $this->specificationVersion()
             ]
         ];
 
@@ -297,17 +298,15 @@ class JsonApiResponse implements JsonApiResponseInterface
      */
     private function addLinks(array $response): array
     {
-        if ($this->resources instanceof JsonApiResourcesInterface) {
-            $baseUrl = '';
-            if (empty($this->resources->baseUrl()) === false) {
-                $baseUrl = $this->resources->baseUrl();
-                $response['links']['self'] = $baseUrl;
-            }
+        $baseUrl = '';
+        if (empty($this->resources->baseUrl()) === false) {
+            $baseUrl = $this->resources->baseUrl();
+            $response['links']['self'] = $baseUrl;
+        }
 
-            if (empty($this->resources->links()) === false) {
-                foreach ($this->resources->links() as $link) {
-                    $response['links'][$link->name()] = $baseUrl . $link->url();
-                }
+        if (empty($this->resources->links()) === false) {
+            foreach ($this->resources->links() as $link) {
+                $response['links'][$link->name()] = $baseUrl . $link->url();
             }
         }
         return $response;
@@ -356,7 +355,7 @@ class JsonApiResponse implements JsonApiResponseInterface
      */
     private function addPaginationMetaData(array $response): array
     {
-        if ($this->resources instanceof JsonApiResourcesInterface && $this->resources->numberOfPages() > 0) {
+        if ($this->resources->numberOfPages() > 0) {
             $response['meta']['total'] = (string)$this->resources->numberOfRecords();
 
             if ($this->resources->recordsPerPage() > 0) {
@@ -405,7 +404,7 @@ class JsonApiResponse implements JsonApiResponseInterface
      */
     private function addPaginationLinks(array $response): array
     {
-        if ($this->resources instanceof JsonApiResourcesInterface && $this->resources->numberOfPages() > 0) {
+        if ($this->resources->numberOfPages() > 0) {
             if ($this->resources->firstPage() > 0) {
                 $response['links']['first'] = $this->formatPaginationUrl($this->resources->firstPage());
             }
