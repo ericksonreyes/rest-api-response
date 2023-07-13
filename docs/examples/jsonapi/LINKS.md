@@ -47,21 +47,15 @@ class Articles extends BaseController {
         $resources->addResource($resource);
     }
     
-    // New JSON API metadata
-    $meta = new Meta();
-    $meta->addMetaData(key: 'title', value: 'copyright');
-    $meta->addMetaData(key: 'description', value: 'Copyright 2015 Example Corp.');
-    $meta->addMetaData(key: 'author', value: [
-        'name' => [
-            'Yehuda Katz',
-            'Steve Klabnik',
-            'Dan Gebhardt',
-            'Tyler Kellen'
-        ]
-    ]);
-    
-    // Add the metadata to the JSON API response object
-    $response->withMeta($meta);
+    $links = new Links();
+    foreach ($this->links as $link) {
+        $name = $link['name'];
+        $url = $link['url'];
+
+        $link = new Link(name: $name, url: $url);
+        $links->addLink($link);
+    }
+    $resources->withLinks($links);
     
     // Add the article resources to the JSON API response object
     $response->withResources($resources);

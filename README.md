@@ -16,7 +16,11 @@ composer require ericksonreyes/rest-api-response
 
 ### JSON API Examples
 * [Resources](docs/examples/jsonapi/RESOURCES.md) 
-* [Resources with relationships](docs/examples/jsonapi/RELATIONSHIPS.md)
+* [Relationships](docs/examples/jsonapi/RELATIONSHIPS.md)
+* [Links](docs/examples/jsonapi/LINKS.md)
+* [Meta](docs/examples/jsonapi/META.md)
+* [Pagination](docs/examples/jsonapi/PAGINATION.md)
+* [Errors](docs/examples/jsonapi/ERRORS.md)
 
 ### Author
 
